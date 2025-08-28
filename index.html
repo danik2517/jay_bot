@@ -1,0 +1,1747 @@
+<!DOCTYPE html>
+
+<html lang="ru">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Джей-бот</title>
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@font-face {
+    font-family: 'Matrix';
+    src: url('https://fonts.cdnfonts.com/css/matrix-code-nfi');
+    font-weight: normal;
+    font-style: normal;
+}
+
+body {
+    background-color: #0b0b10;
+    color: #ff9cc3;
+    overflow-x: hidden;
+    line-height: 1.6;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: 'Matrix', 'Courier New', monospace;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+}
+/* Добавьте эти стили в существующие медиа-запросы */
+@media (max-width: 768px) {
+    .top-export-container {
+        width: 95vw;
+        max-width: 95vw;
+        padding: 15px;
+        margin: 10px auto;
+    }
+    
+    .top-export-title {
+        font-size: 20px;
+    }
+    
+    .top-export-item {
+        padding: 10px;
+        flex-direction: row;
+        font-size: 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .top-export-container {
+        width: 98vw;
+        padding: 10px;
+        margin: 5px auto;
+    }
+    
+    .top-export-title {
+        font-size: 18px;
+    }
+    
+    .top-export-date {
+        font-size: 14px;
+    }
+    
+    .top-export-item {
+        padding: 8px;
+        font-size: 12px;
+    }
+    
+    .top-export-username, .top-export-score {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 60%;
+    }
+}
+
+#matrix-bg {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -3;
+    opacity: 0.85;
+    pointer-events: none;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+header {
+    text-align: center;
+    padding: 20px 0;
+    border-bottom: 1px solid #ff9cc3;
+    margin-bottom: 20px;
+}
+
+h1 {
+    color: #ff9cc3;
+    font-size: 2.2rem;
+    text-shadow: 0 0 10px #ff9cc3;
+    letter-spacing: 3px;
+    margin-bottom: 10px;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.subtitle {
+    font-size: 1rem;
+    opacity: 0.85;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+    margin: 30px 0;
+    flex: 1;
+}
+
+.menu-item {
+    width: 100%;
+    max-width: 500px;
+    padding: 18px;
+    text-align: center;
+    background-color: rgba(15, 15, 20, 0.85);
+    border: 1px solid #ff9cc3;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    position: relative;
+    overflow: hidden;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.menu-item:hover {
+    background-color: rgba(255, 156, 195, 0.22);
+    transform: translateY(-5px);
+    box-shadow: 0 5px 15px rgba(255, 156, 195, 0.25);
+}
+
+.menu-item::before {
+    content: ">";
+    position: absolute;
+    left: 15px;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.menu-item:hover::before {
+    opacity: 1;
+}
+
+.glitch {
+    position: relative;
+    animation: glitch 5s infinite;
+}
+
+@keyframes glitch {
+    0% { text-shadow: 0 0 10px #ff9cc3; }
+    95% { text-shadow: 0 0 10px #ff9cc3; }
+    96% { text-shadow: -2px -2px 0 #ff4f7b, 2px 2px 0 #ffb6c9; }
+    97% { text-shadow: 2px 2px 0 #ff4f7b, -2px -2px 0 #ffb6c9; }
+    98% { text-shadow: -2px 2px 0 #ff4f7b, 2px -2px 0 #ffb6c9; }
+    99% { text-shadow: 2px -2px 0 #ff4f7b, -2px 2px 0 #ffb6c9; }
+    100% { text-shadow: 0 0 10px #ff9cc3; }
+}
+
+footer {
+    text-align: center;
+    padding: 20px 0;
+    margin-top: auto;
+    border-top: 1px solid #ff9cc3;
+    font-size: 0.8rem;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+/* Модальное окно */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.92);
+    z-index: 100;
+    overflow: hidden;
+    padding: 20px;
+}
+
+.modal-content {
+    background-color: rgba(12, 12, 18, 0.95);
+    margin: 2% auto;
+    padding: 20px;
+    border: 1px solid #ff9cc3;
+    width: 90%;
+    max-width: 800px;
+    max-height: 90vh;
+    border-radius: 5px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 0 20px rgba(247, 64, 107, 0.5);
+}
+
+.close {
+    color: #ff9cc3;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.3s;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.close:hover {
+    color: red;
+    text-shadow: 0 0 5px #ff4f7b;
+}
+
+.modal-header {
+    padding: 10px 0;
+    border-bottom: 1px solid #ff9cc3;
+    margin-bottom: 15px;
+    font-family: 'Matrix', 'Courier New', monospace;
+    flex-shrink: 0;
+}
+
+.modal-body {
+    padding: 10px 0;
+    overflow-y: auto;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+}
+
+.nearest-birthday {
+    background-color: rgba(247, 64, 107, 0.1);
+    padding: 15px;
+    border: 1px solid #ff9cc3;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    font-family: 'Matrix', 'Courier New', monospace;
+    flex-shrink: 0;
+}
+
+.nearest-birthday h3 {
+    margin-bottom: 10px;
+    color: #ff9cc3;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.channels-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+.channels-table th, .channels-table td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px dashed #ff9cc3;
+}
+
+.channels-table th {
+    border-bottom: 1px solid #ff9cc3;
+    font-weight: bold;
+}
+
+.channel-link {
+    color: #ff9cc3;
+    text-decoration: none;
+    transition: text-shadow 0.3s;
+    font-family: 'Matrix', 'Courier New', monospace;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+}
+
+.channel-link:hover {
+    text-shadow: 0 0 10px #ff9cc3;
+    text-decoration: underline;
+}
+
+.birthday-list-container, .channels-list-container {
+    overflow-y: auto;
+    flex: 1;
+    scrollbar-width: none;
+}
+
+.birthday-list-container::-webkit-scrollbar,
+.channels-list-container::-webkit-scrollbar {
+    display: none;
+}
+
+.birthday-list {
+    list-style: none;
+}
+
+.birthday-item {
+    padding: 12px;
+    border-bottom: 1px dashed #ff9cc3;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.birthday-item:last-child {
+    border-bottom: none;
+}
+
+.birthday-username {
+    font-weight: bold;
+    color: #ff9cc3;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.birthday-date {
+    opacity: 0.9;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+/* Стили для коллабов и движей */
+.collabs-list {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+}
+
+.collab-item {
+    background: rgba(255, 156, 195, 0.10);
+    border: 1px solid #ff9cc3;
+    border-radius: 6px;
+    padding: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.collab-item:hover {
+    background: rgba(255, 156, 195, 0.14);
+}
+
+.collab-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 8px;
+}
+
+.collab-title {
+    font-weight: bold;
+    color: #ff9cc3;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    font-size: 1rem;
+    flex: 1;
+}
+
+.collab-status {
+    padding: 4px 8px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: bold;
+    margin-left: 10px;
+}
+
+.status-active {
+    background: rgba(76, 175, 80, 0.2);
+    color: #66bb6a;
+    border: 1px solid #66bb6a;
+}
+
+.status-completed {
+    background: rgba(244, 67, 54, 0.2);
+    color: #ff6f7d;
+    border: 1px solid #ff6f7d;
+}
+
+.status-upcoming {
+    background: rgba(33, 150, 243, 0.2);
+    color: #64b5f6;
+    border: 1px solid #64b5f6;
+}
+
+.collab-details {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+}
+
+.collab-details.expanded {
+    max-height: 500px;
+}
+
+.collab-detail-item {
+    margin: 8px 0;
+    padding: 8px;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 4px;
+    border-left: 2px solid #ff9cc3;
+}
+
+.collab-detail-label {
+    font-weight: bold;
+    color: #ffb6c9;
+    margin-right: 5px;
+}
+
+.collab-participants {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 5px;
+}
+
+.collab-participant {
+    background: rgba(255, 156, 195, 0.14);
+    padding: 2px 6px;
+    border-radius: 10px;
+    font-size: 0.75rem;
+    border: 1px dashed #ff9cc3;
+}
+
+.collab-arrow {
+    transition: transform 0.3s ease;
+    margin-left: 8px;
+    font-size: 10px;
+}
+
+.collab-arrow.expanded {
+    transform: rotate(180deg);
+}
+
+/* Адаптивность для мобильных */
+@media (max-width: 768px) {
+    .collab-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 6px;
+    }
+    
+    .collab-status {
+        margin-left: 0;
+        align-self: flex-start;
+    }
+    
+    .collab-title {
+        font-size: 0.95rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .collab-item {
+        padding: 10px;
+    }
+    
+    .collab-detail-item {
+        padding: 6px;
+        font-size: 0.9rem;
+    }
+    
+    .collab-participant {
+        font-size: 0.7rem;
+        padding: 1px 4px;
+    }
+}
+.blacklist-container {
+    padding: 10px;
+}
+
+.blacklist-list {
+    list-style: none;
+    padding: 0;
+}
+
+.blacklist-list li {
+    padding: 12px;
+    border-bottom: 1px dashed #ff9cc3;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.blacklist-list li:last-child {
+    border-bottom: none;
+}
+
+/* Стили для статистики */
+.stats-info {
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: rgba(247, 64, 107, 0.1);
+    border: 1px solid #ff9cc3;
+    border-radius: 5px;
+    font-family: 'Matrix', 'Courier New', monospace;
+    flex-shrink: 0;
+}
+
+.stats-section {
+    margin-bottom: 25px;
+    flex-shrink: 0;
+}
+
+.stats-section h3 {
+    color: #ff9cc3;
+    margin-bottom: 15px;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.stats-list {
+    margin-bottom: 15px;
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid #ff9cc3;
+    border-radius: 5px;
+    background: rgba(247, 64, 107, 0.05);
+}
+
+.stats-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.stats-list::-webkit-scrollbar-track {
+    background: rgba(255, 156, 195, 0.10);
+    border-radius: 3px;
+}
+
+.stats-list::-webkit-scrollbar-thumb {
+    background: #ff9cc3;
+    border-radius: 3px;
+}
+
+.stats-list::-webkit-scrollbar-thumb:hover {
+    background: #ff4f7b;
+}
+
+.stats-item {
+    padding: 10px;
+    border-bottom: 1px dashed #ff9cc3;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.stats-item:last-child {
+    border-bottom: none;
+}
+
+.export-btn {
+    background-color: rgba(255, 156, 195, 0.22);
+    color: #ff9cc3;
+    border: 1px solid #ff9cc3;
+    padding: 10px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-family: 'Matrix', 'Courier New', monospace;
+    text-shadow: 0 0 3px #ff9cc3;
+    flex-shrink: 0;
+}
+
+.export-btn:hover {
+    background-color: rgba(255, 156, 195, 0.35);
+    box-shadow: 0 0 10px rgba(255, 156, 195, 0.45);
+    transform: translateY(-2px);
+}
+
+/* Стили для экспорта топа */
+.top-export-container {
+    background: linear-gradient(135deg, #101216 0%, #161a20 100%);
+    border: 3px solid #ff9cc3;
+    border-radius: 15px;
+    padding: 30px;
+    margin: 20px auto;
+    max-width: 500px;
+    max-height: 90vh;
+    overflow-y: auto;
+    box-shadow: 0 0 30px rgba(255, 156, 195, 0.35);
+    display: flex;
+    flex-direction: column;
+}
+
+.top-export-header {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #ff9cc3;
+    text-shadow: 0 0 10px #ff9cc3;
+    font-size: 24px;
+    flex-shrink: 0;
+}
+
+.top-export-title {
+    font-size: 28px;
+    margin-bottom: 10px;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.top-export-date {
+    font-size: 16px;
+    opacity: 0.85;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.top-export-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow-y: auto;
+    max-height: calc(90vh - 150px);
+    flex-grow: 1;
+}
+
+.top-export-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.top-export-list::-webkit-scrollbar-track {
+    background: rgba(255, 156, 195, 0.10);
+    border-radius: 3px;
+}
+
+.top-export-list::-webkit-scrollbar-thumb {
+    background: #ff9cc3;
+    border-radius: 3px;
+}
+
+.top-export-list::-webkit-scrollbar-thumb:hover {
+    background: #ff4f7b;
+}
+
+.top-export-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin: 8px 0;
+    background: rgba(255, 156, 195, 0.10);
+    border: 1px solid #ff9cc3;
+    border-radius: 8px;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.top-export-username {
+    font-weight: bold;
+    color: #ff9cc3;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+}
+
+.top-export-score {
+    color: #ffb6c9;
+    font-weight: bold;
+}
+
+.export-loading {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0, 0.9);
+    padding: 20px;
+    border: 2px solid #ff9cc3;
+    border-radius: 10px;
+    z-index: 1000;
+    color: #ff9cc3;
+    text-align: center;
+    font-family: 'Matrix', 'Courier New', monospace;
+}
+
+.export-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.download-btn {
+    background: linear-gradient(135deg, #ff9cc3 0%, #ff4f7b 100%);
+    color: black;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-family: 'Matrix', 'Courier New', monospace;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+.download-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(247, 64, 107, 0.5);
+}
+
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    .menu-item {
+        padding: 15px;
+        font-size: 1rem;
+    }
+    
+    nav {
+        gap: 12px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 15px;
+        margin: 5% auto;
+        max-height: 85vh;
+    }
+    
+    .birthday-item {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 5px;
+    }
+    
+    .channels-table {
+        font-size: 0.9rem;
+    }
+    
+    .channels-table th, .channels-table td {
+        padding: 8px 5px;
+    }
+    
+    .top-export-container {
+        padding: 20px;
+        margin: 15px;
+        max-height: 80vh;
+    }
+    
+    .top-export-title {
+        font-size: 22px;
+    }
+    
+    .top-export-list {
+        max-height: calc(80vh - 120px);
+    }
+    
+    .stats-list {
+        max-height: 250px;
+    }
+}
+
+@media (max-width: 480px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+    
+    .menu-item {
+        padding: 12px;
+        font-size: 0.9rem;
+    }
+    
+    .container {
+        padding: 10px;
+    }
+    
+    .modal-content {
+        margin: 10% auto;
+        width: 100%;
+        border-radius: 0;
+        padding: 10px;
+        max-height: 80vh;
+    }
+    
+    .nearest-birthday {
+        padding: 10px;
+    }
+    
+    .channels-table {
+        font-size: 0.8rem;
+    }
+    
+    .channels-table th, .channels-table td {
+        padding: 6px 3px;
+    }
+    
+    .top-export-container {
+        padding: 15px;
+        margin: 10px;
+        max-height: 75vh;
+    }
+    
+    .top-export-title {
+        font-size: 20px;
+    }
+    
+    .top-export-list {
+        max-height: calc(75vh - 100px);
+    }
+    
+    .top-export-item {
+        padding: 10px;
+        flex-direction: column;
+        gap: 5px;
+        text-align: center;
+    }
+    
+    .export-buttons {
+        flex-direction: column;
+    }
+    
+    .stats-list {
+        max-height: 200px;
+    }
+}
+
+@media (max-height: 700px) {
+    .modal-content {
+        max-height: 85vh;
+    }
+    
+    .top-export-container {
+        max-height: 85vh;
+    }
+    
+    .top-export-list {
+        max-height: calc(85vh - 140px);
+    }
+    
+    .stats-list {
+        max-height: 200px;
+    }
+}
+.modal-body::-webkit-scrollbar {
+    display: none; /* Chrome, Safari, Edge */
+}
+</style>
+</head>
+<body>
+<canvas id="matrix-bg"></canvas>
+<div class="container">
+<header>
+<h1 class="glitch">Джей и молчаливый PR</h1>
+<p class="subtitle">Красная или синяя таблетка?</p>
+</header>
+<nav>
+<div class="menu-item">Актуальные коллабы и движи</div>
+<div class="menu-item">Дни рождения</div>
+<div class="menu-item">Каналы участников</div>
+<div class="menu-item">Статистика</div>
+<div class="menu-item">Черный список каналов</div>
+</nav>
+<footer>
+<p>Версия 1.0.0<br/>© 2025</p>
+</footer>
+</div>
+<!-- Модальное окно дней рождения -->
+<div class="modal" id="birthdays-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Дни рождения участников</h2>
+</div>
+<div class="modal-body">
+<div class="nearest-birthday" id="nearest-birthday">
+<h3>Ближайшие дни рождения:</h3>
+<div id="nearest-birthdays-list"></div>
+</div>
+<div class="birthday-list-container">
+<ul class="birthday-list" id="birthday-list">
+<!-- Данные будут добавлены через JavaScript -->
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Модальное окно каналов участников -->
+<div class="modal" id="channels-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Каналы участников</h2>
+</div>
+<div class="modal-body">
+<div class="channels-list-container">
+<table class="channels-table">
+<thead>
+<tr>
+<th>Участник</th>
+<th>Канал</th>
+</tr>
+</thead>
+<tbody id="channels-table-body">
+<!-- Данные будут добавлены через JavaScript -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="modal" id="collabs-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Актуальные коллабы и движи</h2>
+</div>
+<div class="modal-body">
+<div class="collabs-list" id="collabs-list">
+<!-- Данные будут добавлены через JavaScript -->
+</div>
+</div>
+</div>
+</div>
+<!-- Модальное окно статистики -->
+<div class="modal stats-modal" id="stats-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Статистика участников</h2>
+</div>
+<div class="modal-body">
+<div class="stats-info">
+<p>Дата последнего обновления: 26.08.2025</p>
+</div>
+<div class="stats-section">
+<h3>Топ-15 за все время</h3>
+<div class="stats-list">
+<div class="stats-item">🥇@chericherimike 27922</div>
+<div class="stats-item">🥈@marat_sultanov 25065</div>
+<div class="stats-item">🥉@nemakarovnekino 20318</div>
+<div class="stats-item">🏆@nastaz 15391</div>
+<div class="stats-item">🏆@honeyfeelfreeee 13816</div>
+<div class="stats-item">🏆@mrrprsm 13338</div>
+<div class="stats-item">🏆@swallowtherabbit 13099</div>
+<div class="stats-item">🏆@shillerAV 10936</div>
+<div class="stats-item">🏅@damboooy 10808</div>
+<div class="stats-item">🏅@yagorlukanin 8818</div>
+<div class="stats-item">🏅@sevenonm 7837</div>
+<div class="stats-item">🏅@diana_kanda 7153</div>
+<div class="stats-item">🏅@felixkriventzov 7053</div>
+<div class="stats-item">🏅@oleglyfar 5942</div>
+<div class="stats-item">🏅@Sadbuttrue99 5590</div>
+</div>
+</div>
+<div class="stats-section">
+<h3>Топ за неделю</h3>
+<div class="stats-list">
+<div class="stats-item">🥇@chericherimike 1306</div>
+<div class="stats-item">🥈@damboooy 1015</div>
+<div class="stats-item">🥉@mrrprsm 881</div>
+<div class="stats-item">🏆@nastaz 801</div>
+<div class="stats-item">🏆@marat_sultanov 735</div>
+<div class="stats-item">🏅@nemakarovnekino 678</div>
+<div class="stats-item">🏅@felixkriventzov 547</div>
+<div class="stats-item">🏅@swallowtherabbit 397</div>
+<div class="stats-item">🏅@mimivasya 389</div>
+<div class="stats-item">🏅@MariyaSrkn 383</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Модальное окно черного списка -->
+<div class="modal" id="blacklist-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Черный список каналов</h2>
+</div>
+<div class="modal-body">
+<div class="blacklist-container">
+<ul class="blacklist-list">
+<li>💀 <a class="channel-link" href="https://t.me/spletterboxd" target="_blank">(SP)LETTERBOXD</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/Kinoshnayabest1" target="_blank">Киношная №1</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/PhilosophyOfCinema" target="_blank">Философия кино</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/Kinohardcore" target="_blank">Кинохардкор</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/v_krugu_adminov" target="_blank">Круглосуточный сеанс</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/scalpelnazub" target="_blank">скальпель на зуб</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/bylabutinka" target="_blank">Лабутинка, что по кино?</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/kiryambit" target="_blank">Кирямбит</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/beforethenight" target="_blank">before your night 18+</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/monkeysandfilms" target="_blank">Обезьяны и кино</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
+<script>
+    // Данные из Excel (только те, у кого указан день рождения)
+    const birthdayData = [
+        {username: "@geregievaelena", date: "2025-01-02 00:00:00"},
+        {username: "@mimivasya", date: "2025-01-04 00:00:00"},
+        {username: "@fff_anton", date: "2025-01-10 00:00:00"},
+        {username: "@pinkplushka", date: "2025-02-01 00:00:00"},
+        {username: "@mitsurori", date: "2025-02-02 00:00:00"},
+        {username: "@chericherimike", date: "2025-02-06 00:00:00"},
+        {username: "@nemakarovnekino", date: "2025-02-28 00:00:00"},
+        {username: "@honeyfeelfreeee", date: "2025-03-01 00:00:00"},
+        {username: "@kulikovadi", date: "2025-03-01 00:00:00"},
+        {username: "@kinonutaya_Julia", date: "2025-03-01 00:00:00"},
+        {username: "@PKhA88", date: "2025-03-08 00:00:00"},
+        {username: "@aegarev", date: "2025-03-16 00:00:00"},
+        {username: "@ayamusy", date: "2025-03-27 00:00:00"},
+        {username: "@damboooy", date: "2025-04-22 00:00:00"},
+        {username: "@marat_sultanov", date: "2025-05-10 00:00:00"},
+        {username: "@denchikizvv", date: "2025-05-12 00:00:00"},
+        {username: "@white_sophie", date: "2025-05-22 00:00:00"},
+        {username: "@eeleninn", date: "2025-06-02 00:00:00"},
+        {username: "@chainsawwmn", date: "2025-06-15 00:00:00"},
+        {username: "@therealtimson", date: "2025-06-16 00:00:00"},
+        {username: "@yagorlukanin", date: "2025-06-25 00:00:00"},
+        {username: "@felixkriventzov", date: "2025-07-11 00:00:00"},
+        {username: "@sevenonm", date: "2025-07-12 00:00:00"},
+        {username: "@kokkonen_a", date: "2025-07-27 00:00:00"},
+        {username: "@aliya_csc", date: "2025-08-02 00:00:00"},
+        {username: "@Julls_91", date: "2025-08-03 00:00:00"},
+        {username: "@daazhe_ya", date: "2025-08-04 00:00:00"},
+        {username: "@kessedy", date: "2025-08-04 00:00:00"},
+        {username: "@swallowtherabbit", date: "2025-08-10 00:00:00"},
+        {username: "@shillerAV", date: "2025-08-11 00:00:00"},
+        {username: "@mother_night", date: "2025-08-20 00:00:00"},
+        {username: "@AStarzhinskaya", date: "2025-08-24 00:00:00"},
+        {username: "@pollynoid", date: "2025-08-25 00:00:00"},
+        {username: "@bez_golubey", date: "2025-09-02 00:00:00"},
+        {username: "@Sadbuttrue99", date: "2025-09-09 00:00:00"},
+        {username: "@nastaz", date: "2025-09-14 00:00:00"},
+        {username: "@diana_kanda", date: "2025-09-17 00:00:00"},
+        {username: "@kvitkus", date: "2025-09-17 00:00:00"},
+        {username: "@Maryana_C", date: "2025-09-18 00:00:00"},
+        {username: "@puga_hapuga", date: "2025-09-19 00:00:00"},
+        {username: "@dbegiina", date: "2025-09-26 00:00:00"},
+        {username: "@jwrlbex", date: "2025-10-02 00:00:00"},
+        {username: "@dyateldyatel", date: "2025-10-13 00:00:00"},
+        {username: "@Arinathor", date: "2025-10-16 00:00:00"},
+        {username: "@oleglyfar", date: "2025-10-20 00:00:00"},
+        {username: "@pinnballwizzard", date: "2025-10-22 00:00:00"},
+        {username: "@cassiuscrowe", date: "2025-10-29 00:00:00"},
+        {username: "@ta_pauline", date: "2025-11-01 00:00:00"},
+        {username: "@AkTenma", date: "2025-11-05 00:00:00"},
+        {username: "@bo_zakroy", date: "2025-11-05 00:00:00"},
+        {username: "@kinokate911", date: "2025-11-09 00:00:00"},
+        {username: "@antonmulatov", date: "2025-11-12 00:00:00"},
+        {username: "@mathenka", date: "2025-11-28 00:00:00"},
+        {username: "@MariyaSrkn", date: "2025-12-13 00:00:00"},
+        {username: "@mrrprsm", date: "2025-12-14 00:00:00"}
+    ];
+
+    // Данные каналов участников из Excel
+    const channelsData = [
+        {username: "@aegarev", channel: "@inBrukes"},
+        {username: "@AkTenma", channel: "@gyarandu"},
+        {username: "@aliya_csc", channel: "@chacun_son_cinema"},
+        {username: "@aopetrov31295", channel: "@ugolokhorror"},
+        {username: "@AStarzhinskaya", channel: "@bringchangefilm"},
+        {username: "@ayamusy", channel: "@ayafilms"},
+        {username: "@bez_golubey", channel: "@LifeIsScarier"},
+        {username: "@Bitch_Paketovna", channel: "@bitch_paketovna_and_minho"},
+        {username: "@bo_zakroy", channel: "@bogdana_zakroy"},
+        {username: "@cassiuscrowe", channel: "@thedirectorscut"},
+        {username: "@chericherimike", channel: "@maysaltburn"},
+        {username: "@daazhe_ya", channel: "@kinodan"},
+        {username: "@damboooy", channel: "@non_script"},
+        {username: "@DanyaTetris", channel: "@fcjulieandrews"},
+        {username: "@dbegiina", channel: "@dbgna"},
+        {username: "@denchikizvv", channel: "@horrorreview"},
+        {username: "@diana_kanda", channel: "@reflective_kinoman"},
+        {username: "@dyateldyatel", channel: "@alyashorror"},
+        {username: "@eeleninn", channel: "@kinoclitic"},
+        {username: "@felixkriventzov", channel: "@seance2330"},
+        {username: "@fff_anton", channel: "@horrortosh"},
+        {username: "@honeyfeelfreeee", channel: "@honeyfeelfreee"},
+        {username: "@Julls_91", channel: "@kinogedonist"},
+        {username: "@jwrlbex", channel: "@jwrlbexxeblrwj"},
+        {username: "@kessedy", channel: "@westside_movieclub"},
+        {username: "@kinokate911", channel: "@kinokatetg"},
+        {username: "@kokkonen_a", channel: "@okaybyeeeeeeee"},
+        {username: "@kulikovadi", channel: "@horrorreview"},
+        {username: "@KurosawaFellini", channel: "@NuevoCinemaParadiso"},
+        {username: "@kvitkus", channel: "@MaxAndSe"},
+        {username: "@marat_sultanov", channel: "@stupidthough"},
+        {username: "@margeeknal", channel: "@emmettbrowneffect, @margeeeeknal"},
+        {username: "@MariyaSrkn", channel: "@mariya_srkn"},
+        {username: "@mathenka", channel: "@mathenka_mia"},
+        {username: "@mimivasya", channel: "@miminolon"},
+        {username: "@mitsurori", channel: "@sk8ergirl_exe"},
+        {username: "@mother_night", channel: "@b_jenkin"},
+        {username: "@mrrprsm", channel: "@trkvsk_vrt"},
+        {username: "@nastaz", channel: "@litwatch"},
+        {username: "@nemakarovnekino", channel: "@nemakarov"},
+        {username: "@oleglyfar", channel: "@house_of_light"},
+        {username: "@pinnballwizzard", channel: "@aspectratiofilm"},
+        {username: "@PKhA88", channel: "@bodycountfilms"},
+        {username: "@pollynoid", channel: "@beekindrewind"},
+        {username: "@puga_hapuga", channel: "@krysota"},
+        {username: "@Sadbuttrue99", channel: "@kmcinema"},
+        {username: "@Satanlair", channel: "@satanlairtatt"},
+        {username: "@sevenonm", channel: "@motel_witch"},
+        {username: "@shillerAV", channel: "@kinowelt"},
+        {username: "@swallowtherabbit", channel: "@transgressivesamourai"},
+        {username: "@ta_pauline", channel: "@pollydaily"},
+        {username: "@yagorlukanin", channel: "@DoubleCageRage"},
+        {username: "@zaramomdzhian", channel: "@faaangirling"},
+        {username: "@zavarikhin2008", channel: "@DoubleCageRage"}
+    ];
+
+    // Данные для топов
+    const topAllTimeData = [
+        {username: "@chericherimike", score: 27922},
+        {username: "@marat_sultanov", score: 25065},
+        {username: "@nemakarovnekino", score: 20318},
+        {username: "@nastaz", score: 15391},
+        {username: "@honeyfeelfreeee", score: 13816},
+        {username: "@mrrprsm", score: 13338},
+        {username: "@swallowtherabbit", score: 13099},
+        {username: "@shillerAV", score: 10936},
+        {username: "@damboooy", score: 10808},
+        {username: "@yagorlukanin", score: 8818},
+        {username: "@sevenonm", score: 7837},
+        {username: "@diana_kanda", score: 7153},
+        {username: "@felixkriventzov", score: 7053},
+        {username: "@oleglyfar", score: 5942},
+        {username: "@Sadbuttrue99", score: 5590}
+    ];
+
+    const topWeeklyData = [
+        {username: "@chericherimike", score: 1306},
+        {username: "@damboooy", score: 1015},
+        {username: "@mrrprsm", score: 881},
+        {username: "@nastaz", score: 801},
+        {username: "@marat_sultanov", score: 735},
+        {username: "@nemakarovnekino", score: 678},
+        {username: "@felixkriventzov", score: 547},
+        {username: "@swallowtherabbit", score: 397},
+        {username: "@mimivasya", score: 389},
+        {username: "@MariyaSrkn", score: 383}
+    ];
+
+    // Создание эффекта падающего кода как в Матрице
+    const canvas = document.getElementById('matrix-bg');
+    const ctx = canvas.getContext('2d');
+    
+    const letters = 'アァカサタナハマヤャラワガザダバパイィキシチニヒミリヰギジヂビピウゥクスツヌフムユュルグズブヅプエェケセテネヘメレヱゲゼデベペオォコソトノホモヨョロヲゴゾドボポヴッン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const fontSize = 14;
+    let columns;
+    let drops = [];
+    
+    function initMatrix() {
+        canvas.width = window.innerWidth;
+        canvas.height = window.innerHeight;
+        
+        columns = canvas.width / fontSize;
+        
+        drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+        
+        draw();
+    }
+    
+    function draw() {
+        ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+ctx.fillStyle = 'rgba(255, 156, 195, 0.3)'; // #fb607f в RGB + opacity
+
+        ctx.font = `${fontSize}px monospace`;
+        
+        for (let i = 0; i < drops.length; i++) {
+            const text = letters[Math.floor(Math.random() * letters.length)];
+            ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+            
+            if (drops[i] * fontSize > canvas.height && Math.random() > 0.975) {
+                drops[i] = 0;
+            }
+            
+            drops[i]++;
+        }
+        
+        requestAnimationFrame(draw);
+    }
+    
+    // Ресайз canvas при изменении размера окна
+    window.addEventListener('resize', initMatrix);
+    
+    // Функция для поиска ближайших дней рождений
+    function findNearestBirthdays() {
+        const today = new Date();
+        const currentMonth = today.getMonth();
+        const currentDate = today.getDate();
+        
+        // Преобразуем даты и добавляем год (используем 2025 для сравнения)
+        const birthdays = birthdayData.map(item => {
+            const date = new Date(item.date);
+            return {
+                username: item.username,
+                date: date,
+                month: date.getMonth(),
+                day: date.getDate(),
+                dateForComparison: new Date(2025, date.getMonth(), date.getDate())
+            };
+        });
+        
+        // Находим дни рождения в текущем году
+        const upcoming = birthdays.filter(b => {
+            const bDate = b.dateForComparison;
+            const bThisYear = new Date(2025, b.month, b.day);
+            return bThisYear >= new Date(2025, currentMonth, currentDate);
+        });
+        
+        // Сортируем по дате
+        upcoming.sort((a, b) => a.dateForComparison - b.dateForComparison);
+        
+        // Берем первые 3 ближайших дня рождения
+        return upcoming.slice(0, 3);
+    }
+    
+    // Функция для создания ссылки на канал
+    function createChannelLink(channel) {
+        const channelName = channel.replace('@', '');
+        return `https://t.me/${channelName}`;
+    }
+    
+    // Заполняем список дней рождений
+    function populateBirthdayLists() {
+        const birthdayList = document.getElementById('birthday-list');
+        const nearestBirthdaysList = document.getElementById('nearest-birthdays-list');
+        
+        if (!birthdayList || !nearestBirthdaysList) return;
+        
+        // Очищаем списки
+        birthdayList.innerHTML = '';
+        nearestBirthdaysList.innerHTML = '';
+        
+        // Находим ближайшие дни рождения
+        const nearestBirthdays = findNearestBirthdays();
+        
+        // Добавляем ближайшие дни рождения
+        if (nearestBirthdays.length > 0) {
+            nearestBirthdays.forEach(item => {
+                const formattedDate = item.date.toLocaleDateString('ru-RU', {
+                    day: 'numeric',
+                    month: 'long'
+                });
+                
+                const div = document.createElement('div');
+                div.className = 'nearest-birthday-item';
+                div.innerHTML = `<span class="birthday-username">${item.username}</span> - <span class="birthday-date">${formattedDate}</span>`;
+                nearestBirthdaysList.appendChild(div);
+            });
+        } else {
+            nearestBirthdaysList.innerHTML = '<div>Ближайшие дни рождения не найдены</div>';
+        }
+        
+        // Добавляем все дни рождения в общий список
+        birthdayData.forEach(item => {
+            const listItem = document.createElement("li");
+            listItem.className = "birthday-item";
+            
+            const username = document.createElement("span");
+            username.className = "birthday-username";
+            username.textContent = item.username;
+            
+            const date = document.createElement("span");
+            date.className = "birthday-date";
+            
+            // Форматируем дату
+            const birthDate = new Date(item.date);
+            const formattedDate = birthDate.toLocaleDateString('ru-RU', {
+                day: 'numeric',
+                month: 'long'
+            });
+            
+            date.textContent = formattedDate;
+            
+            listItem.appendChild(username);
+            listItem.appendChild(date);
+            birthdayList.appendChild(listItem);
+        });
+    }
+    
+    // Заполняем таблицу каналов
+    function populateChannelsTable() {
+        const channelsTableBody = document.getElementById('channels-table-body');
+        if (!channelsTableBody) return;
+        
+        channelsTableBody.innerHTML = '';
+        
+        // Добавляем каналы в таблицу
+        channelsData.forEach(item => {
+            const row = document.createElement("tr");
+            
+            const usernameCell = document.createElement("td");
+            usernameCell.textContent = item.username;
+            usernameCell.className = "birthday-username";
+            
+            const channelCell = document.createElement("td");
+            
+            // Обрабатываем каналы (могут быть несколько через запятую)
+            const channels = item.channel.split(',');
+            channels.forEach((channel, index) => {
+                const trimmedChannel = channel.trim();
+                if (trimmedChannel) {
+                    const link = document.createElement("a");
+                    link.href = createChannelLink(trimmedChannel);
+                    link.target = "_blank";
+                    link.rel = "noopener noreferrer";
+                    link.className = "channel-link";
+                    link.textContent = trimmedChannel;
+                    
+                    channelCell.appendChild(link);
+                    
+                    // Добавляем запятую между каналами (кроме последнего)
+                    if (index < channels.length - 1) {
+                        channelCell.appendChild(document.createTextNode(", "));
+                    }
+                }
+            });
+            
+            row.appendChild(usernameCell);
+            row.appendChild(channelCell);
+            channelsTableBody.appendChild(row);
+        });
+    }
+
+function createExportTop(title, items, isAllTime = false) {
+    const container = document.createElement('div');
+    container.className = 'top-export-container';
+    
+    // Добавляем класс для мобильной адаптации
+    if (window.innerWidth <= 768) {
+        container.classList.add('mobile-export');
+    }
+    
+    const header = document.createElement('div');
+    header.className = 'top-export-header';
+    
+    const titleElem = document.createElement('div');
+    titleElem.className = 'top-export-title';
+    titleElem.textContent = title;
+    
+    const dateElem = document.createElement('div');
+    dateElem.className = 'top-export-date';
+    dateElem.textContent = `Дата обновления: 26.08.2025`;
+    
+    header.appendChild(titleElem);
+    header.appendChild(dateElem);
+    
+    const list = document.createElement('ul');
+    list.className = 'top-export-list';
+    
+    // Ограничиваем количество элементов для мобильных устройств
+    const maxItems = window.innerWidth <= 480 ? 10 : 20;
+    const displayItems = items.slice(0, maxItems);
+    
+    displayItems.forEach((item, index) => {
+        const listItem = document.createElement('li');
+        listItem.className = 'top-export-item';
+        
+        const medal = document.createElement('span');
+        if (index === 0) medal.textContent = '🥇 ';
+        else if (index === 1) medal.textContent = '🥈 ';
+        else if (index === 2) medal.textContent = '🥉 ';
+        else if (index < 5) medal.textContent = '🏆 ';
+        else medal.textContent = '🏅 ';
+        
+        const username = document.createElement('span');
+        username.className = 'top-export-username';
+        username.appendChild(medal);
+        
+        // Обрезаем длинные имена пользователей для мобильных
+        let usernameText = item.username;
+        if (window.innerWidth <= 480 && usernameText.length > 15) {
+            usernameText = usernameText.substring(0, 12) + '...';
+        }
+        username.appendChild(document.createTextNode(usernameText));
+        
+        const score = document.createElement('span');
+        score.className = 'top-export-score';
+        score.textContent = item.score.toLocaleString();
+        
+        listItem.appendChild(username);
+        listItem.appendChild(score);
+        list.appendChild(listItem);
+    });
+    
+    container.appendChild(header);
+    container.appendChild(list);
+    
+    return container;
+}
+const collabsData = [
+    {
+        title: "Флешмоб плохих бойфрендов",
+        status: "active",
+        description: "Расскажите истории о самых неудачных отношениях в кино и реальной жизни. Делимся самыми запоминающимися моментами с плохими бойфрендами из фильмов и сериалов.",
+        organizer: "@cinema_lovers",
+        deadline: "15.09.2025",
+        participants: ["@chericherimike", "@marat_sultanov", "@nastaz", "@honeyfeelfreeee", "@mrrprsm", "+15 участников"]
+    },
+    {
+        title: "Кинопробег сентября",
+        status: "active",
+        description: "Ежемесячный марафон просмотра фильмов. В этом месяце тема - 'Осенняя меланхолия'. Смотрим фильмы, которые идеально передают осеннее настроение.",
+        organizer: "@film_marathon",
+        deadline: "30.09.2025",
+        participants: ["@nemakarovnekino", "@damboooy", "@yagorlukanin", "@sevenonm", "@diana_kanda"]
+    },
+    {
+        title: "Неделя азиатского кино",
+        status: "upcoming",
+        description: "Погружение в мир восточного кинематографа. От корейских драм до японских аниме и китайских боевиков. Открываем для себя новые горизонты азиатского кино.",
+        organizer: "@asia_cinema_club",
+        deadline: "01.10.2025",
+        participants: ["@felixkriventzov", "@oleglyfar", "@Sadbuttrue99", "@mimivasya", "@MariyaSrkn"]
+    },
+    {
+        title: "Хоррор-марафон Хэллоуин",
+        status: "upcoming",
+        description: "Подготовка к Хэллоуину начинается заранее! Смотрим самые страшные фильмы ужасов, делимся рецензиями и выбираем лучший хоррор сезона.",
+        organizer: "@horror_nights",
+        deadline: "31.10.2025",
+        participants: ["@denchikizvv", "@fff_anton", "@aopetrov31295", "@kinokate911"]
+    },
+    {
+        title: "Ретро-вечеринка 90-х",
+        status: "completed",
+        description: "Ностальгический тур по лучшим фильмам 90-х годов. Вспоминаем культовые ленты, которые определили целое поколение.",
+        organizer: "@retro_cinema",
+        deadline: "15.08.2025",
+        participants: ["@shillerAV", "@swallowtherabbit", "@yagorlukanin", "@nastaz", "@marat_sultanov"]
+    }
+];
+
+// Функция для заполнения списка коллабов
+function populateCollabsList() {
+    const collabsList = document.getElementById('collabs-list');
+    if (!collabsList) return;
+    
+    collabsList.innerHTML = '';
+    
+    collabsData.forEach((collab, index) => {
+        const collabItem = document.createElement('div');
+        collabItem.className = 'collab-item';
+        collabItem.dataset.index = index;
+        
+        const header = document.createElement('div');
+        header.className = 'collab-header';
+        
+        const titleContainer = document.createElement('div');
+        titleContainer.style.display = 'flex';
+        titleContainer.style.alignItems = 'center';
+        titleContainer.style.flex = '1';
+        
+        const title = document.createElement('div');
+        title.className = 'collab-title';
+        title.textContent = collab.title;
+        
+        const arrow = document.createElement('span');
+        arrow.className = 'collab-arrow';
+        arrow.innerHTML = '▼';
+        arrow.style.marginLeft = '8px';
+        
+        titleContainer.appendChild(title);
+        titleContainer.appendChild(arrow);
+        
+        const status = document.createElement('div');
+        status.className = `collab-status status-${collab.status}`;
+        
+        let statusText = '';
+        switch(collab.status) {
+            case 'active':
+                statusText = 'активен';
+                break;
+            case 'completed':
+                statusText = 'завершен';
+                break;
+            case 'upcoming':
+                statusText = 'скоро';
+                break;
+        }
+        status.textContent = statusText;
+        
+        header.appendChild(titleContainer);
+        header.appendChild(status);
+        
+        const details = document.createElement('div');
+        details.className = 'collab-details';
+        
+        const description = document.createElement('div');
+        description.className = 'collab-detail-item';
+        description.innerHTML = `<span class="collab-detail-label">Описание:</span> ${collab.description}`;
+        
+        const organizer = document.createElement('div');
+        organizer.className = 'collab-detail-item';
+        organizer.innerHTML = `<span class="collab-detail-label">Организатор:</span> ${collab.organizer}`;
+        
+        const deadline = document.createElement('div');
+        deadline.className = 'collab-detail-item';
+        deadline.innerHTML = `<span class="collab-detail-label">Дедлайн:</span> ${collab.deadline}`;
+        
+        const participants = document.createElement('div');
+        participants.className = 'collab-detail-item';
+        participants.innerHTML = `<span class="collab-detail-label">Участники:</span>`;
+        
+        const participantsList = document.createElement('div');
+        participantsList.className = 'collab-participants';
+        
+        collab.participants.forEach(participant => {
+            const participantElem = document.createElement('span');
+            participantElem.className = 'collab-participant';
+            participantElem.textContent = participant;
+            participantsList.appendChild(participantElem);
+        });
+        
+        participants.appendChild(participantsList);
+        
+        details.appendChild(description);
+        details.appendChild(organizer);
+        details.appendChild(deadline);
+        details.appendChild(participants);
+        
+        collabItem.appendChild(header);
+        collabItem.appendChild(details);
+        
+        // Обработчик клика для разворачивания/сворачивания
+        collabItem.addEventListener('click', function(e) {
+            const details = this.querySelector('.collab-details');
+            const arrow = this.querySelector('.collab-arrow');
+            
+            // Закрываем другие открытые элементы
+            document.querySelectorAll('.collab-details.expanded').forEach(item => {
+                if (item !== details) {
+                    item.classList.remove('expanded');
+                    item.parentElement.querySelector('.collab-arrow').classList.remove('expanded');
+                }
+            });
+            
+            // Переключаем текущий элемент
+            details.classList.toggle('expanded');
+            arrow.classList.toggle('expanded');
+        });
+        
+        collabsList.appendChild(collabItem);
+    });
+}
+    // Функция для экспорта топа в изображение
+async function exportTopToImage(title, items, isAllTime = false) {
+    const loading = document.createElement('div');
+    loading.className = 'export-loading';
+    loading.textContent = '🔄 Создание изображения...';
+    document.body.appendChild(loading);
+    
+    try {
+        const exportElement = createExportTop(title, items, isAllTime);
+        exportElement.style.position = 'absolute';
+        exportElement.style.left = '-9999px';
+        document.body.appendChild(exportElement);
+        
+        await new Promise(resolve => setTimeout(resolve, 100));
+        
+        // Автоматическое масштабирование для мобильных устройств
+        const elementWidth = exportElement.scrollWidth;
+        const elementHeight = exportElement.scrollHeight;
+        const viewportWidth = window.innerWidth;
+        
+        let scale = 2;
+        
+        // Для мобильных устройств уменьшаем масштаб
+        if (window.innerWidth <= 768) {
+            scale = Math.min(2, viewportWidth / elementWidth * 1.8);
+        }
+        
+        if (elementHeight > window.innerHeight * 0.8) {
+            scale = Math.max(1, window.innerHeight / elementHeight * 1.5);
+        }
+        
+        const canvas = await html2canvas(exportElement, {
+            backgroundColor: null,
+            scale: scale,
+            logging: false,
+            useCORS: true,
+            width: elementWidth,
+            height: elementHeight,
+            windowWidth: Math.max(elementWidth, viewportWidth)
+        });
+            
+            // Создаем модальное окно для предпросмотра и скачивания
+            const previewModal = document.createElement('div');
+            previewModal.className = 'modal';
+            previewModal.style.display = 'block';
+            previewModal.style.background = 'rgba(0, 0, 0, 0.95)';
+            
+            const modalContent = document.createElement('div');
+            modalContent.className = 'modal-content';
+            modalContent.style.textAlign = 'center';
+            
+            const closeBtn = document.createElement('span');
+            closeBtn.className = 'close';
+            closeBtn.innerHTML = '&times;';
+            closeBtn.style.position = 'absolute';
+            closeBtn.style.right = '15px';
+            closeBtn.style.top = '15px';
+            
+            const titleElem = document.createElement('h2');
+            titleElem.textContent = 'Ваш топ готов!';
+            titleElem.style.marginBottom = '20px';
+            
+            const img = document.createElement('img');
+            img.src = canvas.toDataURL('image/png');
+            img.style.maxWidth = '100%';
+            img.style.border = '2px solid #ff9cc3';
+            img.style.borderRadius = '10px';
+            img.style.maxHeight = '70vh';
+            img.style.objectFit = 'contain';
+            
+            const buttonContainer = document.createElement('div');
+            buttonContainer.className = 'export-buttons';
+            
+            const downloadBtn = document.createElement('button');
+            downloadBtn.className = 'download-btn';
+            downloadBtn.textContent = '💾 Скачать PNG';
+            downloadBtn.onclick = function() {
+                const link = document.createElement('a');
+                link.download = `top-${title.toLowerCase().replace(/\s+/g, '-')}-${new Date().toISOString().slice(0, 10)}.png`;
+                link.href = canvas.toDataURL('image/png');
+                link.click();
+            };
+            
+            const closeModalBtn = document.createElement('button');
+            closeModalBtn.className = 'download-btn';
+            closeModalBtn.textContent = '✕ Закрыть';
+            closeModalBtn.onclick = function() {
+                document.body.removeChild(previewModal);
+            };
+            
+            buttonContainer.appendChild(downloadBtn);
+            buttonContainer.appendChild(closeModalBtn);
+            
+            modalContent.appendChild(closeBtn);
+            modalContent.appendChild(titleElem);
+            modalContent.appendChild(img);
+            modalContent.appendChild(buttonContainer);
+            
+            previewModal.appendChild(modalContent);
+            document.body.appendChild(previewModal);
+            
+            // Обработчик закрытия модального окна предпросмотра
+            closeBtn.onclick = function() {
+                document.body.removeChild(previewModal);
+            };
+            
+            previewModal.onclick = function(event) {
+                if (event.target === previewModal) {
+                    document.body.removeChild(previewModal);
+                }
+            };
+            
+            // Удаляем временные элементы
+            document.body.removeChild(exportElement);
+            
+        } catch (error) {
+            console.error('Ошибка при создании изображения:', error);
+            alert('Произошла ошибка при создании изображения');
+        } finally {
+            // Убираем индикатор загрузки
+            if (document.body.contains(loading)) {
+                document.body.removeChild(loading);
+            }
+        }
+    }
+    
+    // Обработчики событий
+    document.addEventListener('DOMContentLoaded', function() {
+        // Закрытие модальных окон
+        const closeButtons = document.querySelectorAll('.close');
+        
+        closeButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                const modal = this.closest('.modal');
+                if (modal) {
+                    modal.style.display = "none";
+                }
+            });
+        });
+
+        // Закрытие при клике вне окна
+        window.addEventListener('click', function(event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.style.display = "none";
+            }
+        });
+
+        // Обработчики для пунктов меню
+        const menuItems = document.querySelectorAll('.menu-item');
+        
+        menuItems.forEach((item) => {
+            item.addEventListener('click', function() {
+                const text = this.textContent.trim();
+            if (text === 'Актуальные коллабы и движи') {
+                populateCollabsList();
+                document.getElementById('collabs-modal').style.display = "block";
+            }                
+               else if (text === 'Дни рождения') {
+                    populateBirthdayLists();
+                    document.getElementById('birthdays-modal').style.display = "block";
+                }
+                else if (text === 'Каналы участников') {
+                    populateChannelsTable();
+                    document.getElementById('channels-modal').style.display = "block";
+                }
+                else if (text === 'Статистика') {
+                    document.getElementById('stats-modal').style.display = "block";
+                }
+                else if (text === 'Черный список каналов') {
+                    document.getElementById('blacklist-modal').style.display = "block";
+                }
+                else {
+                    alert('Функционал в разработке: ' + text);
+                }
+            });
+        });
+
+        // Обработчики для кнопок экспорта
+        document.querySelectorAll('.export-btn').forEach((btn, index) => {
+            btn.addEventListener('click', function() {
+                const isAllTime = index === 0;
+                const title = isAllTime ? 'Топ-15 за все время' : 'Топ за неделю';
+                const data = isAllTime ? topAllTimeData : topWeeklyData;
+                
+                exportTopToImage(title, data, isAllTime);
+            });
+        });
+
+        // Инициализация
+    initMatrix();
+    populateBirthdayLists();
+    populateChannelsTable();
+    populateCollabsList(); // Добавьте эту строку
+    });
+</script>
+</body>
+</html>
