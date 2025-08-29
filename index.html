@@ -1,12 +1,11 @@
 <!DOCTYPE html>
+
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Джей-бот</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
-    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script><style>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Джей-бот</title>
+<style>
 * {
     margin: 0;
     padding: 0;
@@ -21,15 +20,15 @@
 }
 
 body {
-    background-color: #1f1f1f;
-    color: #f7406b;
+    background-color: #0b0b10;
+    color: #ff9cc3;
     overflow-x: hidden;
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: 'Matrix', 'Courier New', monospace;
-    text-shadow: 0 0 5px #f7406b;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
 }
 /* Добавьте эти стили в существующие медиа-запросы */
 @media (max-width: 768px) {
@@ -85,8 +84,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -1;
-    opacity: 0.7;
+    z-index: -3;
+    opacity: 0.85;
     pointer-events: none;
 }
 
@@ -102,13 +101,14 @@ body {
 header {
     text-align: center;
     padding: 20px 0;
-    border-bottom: 1px solid #f7406b;
+    border-bottom: 1px solid #ff9cc3;
     margin-bottom: 20px;
 }
 
 h1 {
+    color: #ff9cc3;
     font-size: 2.2rem;
-    text-shadow: 0 0 10px #f7406b;
+    text-shadow: 0 0 10px #ff9cc3;
     letter-spacing: 3px;
     margin-bottom: 10px;
     font-family: 'Matrix', 'Courier New', monospace;
@@ -116,7 +116,7 @@ h1 {
 
 .subtitle {
     font-size: 1rem;
-    opacity: 0.8;
+    opacity: 0.85;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -134,8 +134,8 @@ nav {
     max-width: 500px;
     padding: 18px;
     text-align: center;
-    background-color: rgba(10, 10, 10, 0.8);
-    border: 1px solid #f7406b;
+    background-color: rgba(15, 15, 20, 0.85);
+    border: 1px solid #ff9cc3;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -146,9 +146,9 @@ nav {
 }
 
 .menu-item:hover {
-    background-color: rgba(247, 64, 107, 0.2);
+    background-color: rgba(255, 156, 195, 0.22);
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(247, 64, 107, 0.3);
+    box-shadow: 0 5px 15px rgba(255, 156, 195, 0.25);
 }
 
 .menu-item::before {
@@ -169,20 +169,20 @@ nav {
 }
 
 @keyframes glitch {
-    0% { text-shadow: 0 0 10px #f7406b; }
-    95% { text-shadow: 0 0 10px #f7406b; }
-    96% { text-shadow: -2px -2px 0 #ff3366, 2px 2px 0 #ff99bb; }
-    97% { text-shadow: 2px 2px 0 #ff3366, -2px -2px 0 #ff99bb; }
-    98% { text-shadow: -2px 2px 0 #ff3366, 2px -2px 0 #ff99bb; }
-    99% { text-shadow: 2px -2px 0 #ff3366, -2px 2px 0 #ff99bb; }
-    100% { text-shadow: 0 0 10px #f7406b; }
+    0% { text-shadow: 0 0 10px #ff9cc3; }
+    95% { text-shadow: 0 0 10px #ff9cc3; }
+    96% { text-shadow: -2px -2px 0 #ff4f7b, 2px 2px 0 #ffb6c9; }
+    97% { text-shadow: 2px 2px 0 #ff4f7b, -2px -2px 0 #ffb6c9; }
+    98% { text-shadow: -2px 2px 0 #ff4f7b, 2px -2px 0 #ffb6c9; }
+    99% { text-shadow: 2px -2px 0 #ff4f7b, -2px 2px 0 #ffb6c9; }
+    100% { text-shadow: 0 0 10px #ff9cc3; }
 }
 
 footer {
     text-align: center;
     padding: 20px 0;
     margin-top: auto;
-    border-top: 1px solid #f7406b;
+    border-top: 1px solid #ff9cc3;
     font-size: 0.8rem;
     font-family: 'Matrix', 'Courier New', monospace;
 }
@@ -195,17 +195,17 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
+    background-color: rgba(0, 0, 0, 0.92);
     z-index: 100;
     overflow: hidden;
     padding: 20px;
 }
 
 .modal-content {
-    background-color: rgba(15, 5, 10, 0.95);
+    background-color: rgba(12, 12, 18, 0.95);
     margin: 2% auto;
     padding: 20px;
-    border: 1px solid #f7406b;
+    border: 1px solid #ff9cc3;
     width: 90%;
     max-width: 800px;
     max-height: 90vh;
@@ -217,7 +217,7 @@ footer {
 }
 
 .close {
-    color: #f7406b;
+    color: #ff9cc3;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -228,12 +228,12 @@ footer {
 
 .close:hover {
     color: red;
-    text-shadow: 0 0 5px #ff3366;
+    text-shadow: 0 0 5px #ff4f7b;
 }
 
 .modal-header {
     padding: 10px 0;
-    border-bottom: 1px solid #f7406b;
+    border-bottom: 1px solid #ff9cc3;
     margin-bottom: 15px;
     font-family: 'Matrix', 'Courier New', monospace;
     flex-shrink: 0;
@@ -250,7 +250,7 @@ footer {
 .nearest-birthday {
     background-color: rgba(247, 64, 107, 0.1);
     padding: 15px;
-    border: 1px solid #f7406b;
+    border: 1px solid #ff9cc3;
     border-radius: 5px;
     margin-bottom: 20px;
     font-family: 'Matrix', 'Courier New', monospace;
@@ -259,8 +259,8 @@ footer {
 
 .nearest-birthday h3 {
     margin-bottom: 10px;
-    color: #f7406b;
-    text-shadow: 0 0 5px #f7406b;
+    color: #ff9cc3;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -273,24 +273,24 @@ footer {
 .channels-table th, .channels-table td {
     padding: 10px;
     text-align: left;
-    border-bottom: 1px dashed #f7406b;
+    border-bottom: 1px dashed #ff9cc3;
 }
 
 .channels-table th {
-    border-bottom: 1px solid #f7406b;
+    border-bottom: 1px solid #ff9cc3;
     font-weight: bold;
 }
 
 .channel-link {
-    color: #f7406b;
+    color: #ff9cc3;
     text-decoration: none;
     transition: text-shadow 0.3s;
     font-family: 'Matrix', 'Courier New', monospace;
-    text-shadow: 0 0 5px #f7406b;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
 }
 
 .channel-link:hover {
-    text-shadow: 0 0 10px #f7406b;
+    text-shadow: 0 0 10px #ff9cc3;
     text-decoration: underline;
 }
 
@@ -311,7 +311,7 @@ footer {
 
 .birthday-item {
     padding: 12px;
-    border-bottom: 1px dashed #f7406b;
+    border-bottom: 1px dashed #ff9cc3;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -324,8 +324,8 @@ footer {
 
 .birthday-username {
     font-weight: bold;
-    color: #f7406b;
-    text-shadow: 0 0 5px #f7406b;
+    color: #ff9cc3;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -341,8 +341,8 @@ footer {
 }
 
 .collab-item {
-    background: rgba(247, 64, 107, 0.1);
-    border: 1px solid #f7406b;
+    background: rgba(255, 156, 195, 0.10);
+    border: 1px solid #ff9cc3;
     border-radius: 6px;
     padding: 12px;
     cursor: pointer;
@@ -351,7 +351,7 @@ footer {
 }
 
 .collab-item:hover {
-    background: rgba(247, 64, 107, 0.15);
+    background: rgba(255, 156, 195, 0.14);
 }
 
 .collab-header {
@@ -363,8 +363,8 @@ footer {
 
 .collab-title {
     font-weight: bold;
-    color: #f7406b;
-    text-shadow: 0 0 5px #f7406b;
+    color: #ff9cc3;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
     font-size: 1rem;
     flex: 1;
 }
@@ -379,20 +379,20 @@ footer {
 
 .status-active {
     background: rgba(76, 175, 80, 0.2);
-    color: #4caf50;
-    border: 1px solid #4caf50;
+    color: #66bb6a;
+    border: 1px solid #66bb6a;
 }
 
 .status-completed {
     background: rgba(244, 67, 54, 0.2);
-    color: #f44336;
-    border: 1px solid #f44336;
+    color: #ff6f7d;
+    border: 1px solid #ff6f7d;
 }
 
 .status-upcoming {
     background: rgba(33, 150, 243, 0.2);
-    color: #2196f3;
-    border: 1px solid #2196f3;
+    color: #64b5f6;
+    border: 1px solid #64b5f6;
 }
 
 .collab-details {
@@ -410,12 +410,12 @@ footer {
     padding: 8px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
-    border-left: 2px solid #f7406b;
+    border-left: 2px solid #ff9cc3;
 }
 
 .collab-detail-label {
     font-weight: bold;
-    color: #ff99bb;
+    color: #ffb6c9;
     margin-right: 5px;
 }
 
@@ -427,11 +427,11 @@ footer {
 }
 
 .collab-participant {
-    background: rgba(247, 64, 107, 0.15);
+    background: rgba(255, 156, 195, 0.14);
     padding: 2px 6px;
     border-radius: 10px;
     font-size: 0.75rem;
-    border: 1px dashed #f7406b;
+    border: 1px dashed #ff9cc3;
 }
 
 .collab-arrow {
@@ -488,7 +488,7 @@ footer {
 
 .blacklist-list li {
     padding: 12px;
-    border-bottom: 1px dashed #f7406b;
+    border-bottom: 1px dashed #ff9cc3;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -501,7 +501,7 @@ footer {
     margin-bottom: 20px;
     padding: 10px;
     background-color: rgba(247, 64, 107, 0.1);
-    border: 1px solid #f7406b;
+    border: 1px solid #ff9cc3;
     border-radius: 5px;
     font-family: 'Matrix', 'Courier New', monospace;
     flex-shrink: 0;
@@ -513,9 +513,9 @@ footer {
 }
 
 .stats-section h3 {
-    color: #f7406b;
+    color: #ff9cc3;
     margin-bottom: 15px;
-    text-shadow: 0 0 5px #f7406b;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -523,7 +523,7 @@ footer {
     margin-bottom: 15px;
     max-height: 300px;
     overflow-y: auto;
-    border: 1px solid #f7406b;
+    border: 1px solid #ff9cc3;
     border-radius: 5px;
     background: rgba(247, 64, 107, 0.05);
 }
@@ -533,22 +533,22 @@ footer {
 }
 
 .stats-list::-webkit-scrollbar-track {
-    background: rgba(247, 64, 107, 0.1);
+    background: rgba(255, 156, 195, 0.10);
     border-radius: 3px;
 }
 
 .stats-list::-webkit-scrollbar-thumb {
-    background: #f7406b;
+    background: #ff9cc3;
     border-radius: 3px;
 }
 
 .stats-list::-webkit-scrollbar-thumb:hover {
-    background: #ff3366;
+    background: #ff4f7b;
 }
 
 .stats-item {
     padding: 10px;
-    border-bottom: 1px dashed #f7406b;
+    border-bottom: 1px dashed #ff9cc3;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -557,35 +557,35 @@ footer {
 }
 
 .export-btn {
-    background-color: rgba(247, 64, 107, 0.2);
-    color: #f7406b;
-    border: 1px solid #f7406b;
+    background-color: rgba(255, 156, 195, 0.22);
+    color: #ff9cc3;
+    border: 1px solid #ff9cc3;
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Matrix', 'Courier New', monospace;
-    text-shadow: 0 0 3px #f7406b;
+    text-shadow: 0 0 3px #ff9cc3;
     flex-shrink: 0;
 }
 
 .export-btn:hover {
-    background-color: rgba(247, 64, 107, 0.4);
-    box-shadow: 0 0 10px rgba(247, 64, 107, 0.5);
+    background-color: rgba(255, 156, 195, 0.35);
+    box-shadow: 0 0 10px rgba(255, 156, 195, 0.45);
     transform: translateY(-2px);
 }
 
 /* Стили для экспорта топа */
 .top-export-container {
-    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a14 100%);
-    border: 3px solid #f7406b;
+    background: linear-gradient(135deg, #101216 0%, #161a20 100%);
+    border: 3px solid #ff9cc3;
     border-radius: 15px;
     padding: 30px;
     margin: 20px auto;
     max-width: 500px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 0 30px rgba(247, 64, 107, 0.4);
+    box-shadow: 0 0 30px rgba(255, 156, 195, 0.35);
     display: flex;
     flex-direction: column;
 }
@@ -593,8 +593,8 @@ footer {
 .top-export-header {
     text-align: center;
     margin-bottom: 25px;
-    color: #f7406b;
-    text-shadow: 0 0 10px #f7406b;
+    color: #ff9cc3;
+    text-shadow: 0 0 10px #ff9cc3;
     font-size: 24px;
     flex-shrink: 0;
 }
@@ -607,7 +607,7 @@ footer {
 
 .top-export-date {
     font-size: 16px;
-    opacity: 0.8;
+    opacity: 0.85;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -625,17 +625,17 @@ footer {
 }
 
 .top-export-list::-webkit-scrollbar-track {
-    background: rgba(247, 64, 107, 0.1);
+    background: rgba(255, 156, 195, 0.10);
     border-radius: 3px;
 }
 
 .top-export-list::-webkit-scrollbar-thumb {
-    background: #f7406b;
+    background: #ff9cc3;
     border-radius: 3px;
 }
 
 .top-export-list::-webkit-scrollbar-thumb:hover {
-    background: #ff3366;
+    background: #ff4f7b;
 }
 
 .top-export-item {
@@ -644,20 +644,20 @@ footer {
     align-items: center;
     padding: 12px 15px;
     margin: 8px 0;
-    background: rgba(247, 64, 107, 0.1);
-    border: 1px solid #f7406b;
+    background: rgba(255, 156, 195, 0.10);
+    border: 1px solid #ff9cc3;
     border-radius: 8px;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
 .top-export-username {
     font-weight: bold;
-    color: #f7406b;
-    text-shadow: 0 0 5px #f7406b;
+    color: #ff9cc3;
+    text-shadow: 0 0 2px rgba(255,255,255,0.2);
 }
 
 .top-export-score {
-    color: #ff99bb;
+    color: #ffb6c9;
     font-weight: bold;
 }
 
@@ -668,10 +668,10 @@ footer {
     transform: translate(-50%, -50%);
     background: rgba(0, 0, 0, 0.9);
     padding: 20px;
-    border: 2px solid #f7406b;
+    border: 2px solid #ff9cc3;
     border-radius: 10px;
     z-index: 1000;
-    color: #f7406b;
+    color: #ff9cc3;
     text-align: center;
     font-family: 'Matrix', 'Courier New', monospace;
 }
@@ -684,7 +684,7 @@ footer {
 }
 
 .download-btn {
-    background: linear-gradient(135deg, #f7406b 0%, #ff3366 100%);
+    background: linear-gradient(135deg, #ff9cc3 0%, #ff4f7b 100%);
     color: black;
     border: none;
     padding: 8px 15px;
@@ -841,165 +841,154 @@ footer {
 </style>
 </head>
 <body>
-    <canvas id="matrix-bg"></canvas>
-    
-    <div class="container">
-        <header>
-            <h1 class="glitch">Джей и молчаливый PR</h1>
-            <p class="subtitle">Красная или синяя таблетка?</p>
-        </header>
-        
-        <nav>
-            <div class="menu-item">Актуальные коллабы и движи</div>
-            <div class="menu-item">Дни рождения</div>
-            <div class="menu-item">Каналы участников</div>
-            <div class="menu-item">Статистика</div>
-            <div class="menu-item">Черный список каналов</div>
-        </nav>
-        
-        <footer>
-            <p>Версия 1.0.0<br>© 2025</p>
-        </footer>
-    </div>
-
-    <!-- Модальное окно дней рождения -->
-    <div id="birthdays-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>Дни рождения участников</h2>
-            </div>
-            <div class="modal-body">
-                <div class="nearest-birthday" id="nearest-birthday">
-                    <h3>Ближайшие дни рождения:</h3>
-                    <div id="nearest-birthdays-list"></div>
-                </div>
-                <div class="birthday-list-container">
-                    <ul class="birthday-list" id="birthday-list">
-                        <!-- Данные будут добавлены через JavaScript -->
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Модальное окно каналов участников -->
-    <div id="channels-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>Каналы участников</h2>
-            </div>
-            <div class="modal-body">
-                <div class="channels-list-container">
-                    <table class="channels-table">
-                        <thead>
-                            <tr>
-                                <th>Участник</th>
-                                <th>Канал</th>
-                            </tr>
-                        </thead>
-                        <tbody id="channels-table-body">
-                            <!-- Данные будут добавлены через JavaScript -->
-                        </tbody>
-                    </table>
-                </div>
-            </div>
-        </div>
-    </div>
-<div id="collabs-modal" class="modal">
-    <div class="modal-content">
-        <div class="modal-header">
-            <span class="close">&times;</span>
-            <h2>Актуальные коллабы и движи</h2>
-        </div>
-        <div class="modal-body">
-            <div class="collabs-list" id="collabs-list">
-                <!-- Данные будут добавлены через JavaScript -->
-            </div>
-        </div>
-    </div>
+<canvas id="matrix-bg"></canvas>
+<div class="container">
+<header>
+<h1 class="glitch">Джей и молчаливый PR</h1>
+<p class="subtitle">Красная или синяя таблетка?</p>
+</header>
+<nav>
+<div class="menu-item">Актуальные коллабы и движи</div>
+<div class="menu-item">Дни рождения</div>
+<div class="menu-item">Каналы участников</div>
+<div class="menu-item">Статистика</div>
+<div class="menu-item">Черный список каналов</div>
+</nav>
+<footer>
+<p>Версия 1.0.1<br/>© 2025</p>
+</footer>
 </div>
-    <!-- Модальное окно статистики -->
-    <div id="stats-modal" class="modal stats-modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>Статистика участников</h2>
-            </div>
-            <div class="modal-body">
-                <div class="stats-info">
-                    <p>Дата последнего обновления: 26.08.2025</p>
-                </div>
-                
-                <div class="stats-section">
-                    <h3>Топ-15 за все время</h3>
-                    <div class="stats-list">
-                        <div class="stats-item">🥇@chericherimike 27922</div>
-                        <div class="stats-item">🥈@marat_sultanov 25065</div>
-                        <div class="stats-item">🥉@nemakarovnekino 20318</div>
-                        <div class="stats-item">🏆@nastaz 15391</div>
-                        <div class="stats-item">🏆@honeyfeelfreeee 13816</div>
-                        <div class="stats-item">🏆@mrrprsm 13338</div>
-                        <div class="stats-item">🏆@swallowtherabbit 13099</div>
-                        <div class="stats-item">🏆@shillerAV 10936</div>
-                        <div class="stats-item">🏅@damboooy 10808</div>
-                        <div class="stats-item">🏅@yagorlukanin 8818</div>
-                        <div class="stats-item">🏅@sevenonm 7837</div>
-                        <div class="stats-item">🏅@diana_kanda 7153</div>
-                        <div class="stats-item">🏅@felixkriventzov 7053</div>
-                        <div class="stats-item">🏅@oleglyfar 5942</div>
-                        <div class="stats-item">🏅@Sadbuttrue99 5590</div>
-                    </div>
-                 
-                </div>
-                
-                <div class="stats-section">
-                    <h3>Топ за неделю</h3>
-                    <div class="stats-list">
-                        <div class="stats-item">🥇@chericherimike 1306</div>
-                        <div class="stats-item">🥈@damboooy 1015</div>
-                        <div class="stats-item">🥉@mrrprsm 881</div>
-                        <div class="stats-item">🏆@nastaz 801</div>
-                        <div class="stats-item">🏆@marat_sultanov 735</div>
-                        <div class="stats-item">🏅@nemakarovnekino 678</div>
-                        <div class="stats-item">🏅@felixkriventzov 547</div>
-                        <div class="stats-item">🏅@swallowtherabbit 397</div>
-                        <div class="stats-item">🏅@mimivasya 389</div>
-                        <div class="stats-item">🏅@MariyaSrkn 383</div>
-                    </div>
-                  
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!-- Модальное окно черного списка -->
-    <div id="blacklist-modal" class="modal">
-        <div class="modal-content">
-            <div class="modal-header">
-                <span class="close">&times;</span>
-                <h2>Черный список каналов</h2>
-            </div>
-            <div class="modal-body">
-                <div class="blacklist-container">
-                    <ul class="blacklist-list">
-                        <li>💀 <a href="https://t.me/spletterboxd" class="channel-link" target="_blank">(SP)LETTERBOXD</a></li>
-                        <li>💀 <a href="https://t.me/Kinoshnayabest1" class="channel-link" target="_blank">Киношная №1</a></li>
-                        <li>💀 <a href="https://t.me/PhilosophyOfCinema" class="channel-link" target="_blank">Философия кино</a></li>
-                        <li>💀 <a href="https://t.me/Kinohardcore" class="channel-link" target="_blank">Кинохардкор</a></li>
-                        <li>💀 <a href="https://t.me/v_krugu_adminov" class="channel-link" target="_blank">Круглосуточный сеанс</a></li>
-                        <li>💀 <a href="https://t.me/scalpelnazub" class="channel-link" target="_blank">скальпель на зуб</a></li>
-                        <li>💀 <a href="https://t.me/bylabutinka" class="channel-link" target="_blank">Лабутинка, что по кино?</a></li>
-                        <li>💀 <a href="https://t.me/kiryambit" class="channel-link" target="_blank">Кирямбит</a></li>
-                        <li>💀 <a href="https://t.me/beforethenight" class="channel-link" target="_blank">before your night 18+</a></li>
-                        <li>💀 <a href="https://t.me/monkeysandfilms" class="channel-link" target="_blank">Обезьяны и кино</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div>
-
+<!-- Модальное окно дней рождения -->
+<div class="modal" id="birthdays-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Дни рождения участников</h2>
+</div>
+<div class="modal-body">
+<div class="nearest-birthday" id="nearest-birthday">
+<h3>Ближайшие дни рождения:</h3>
+<div id="nearest-birthdays-list"></div>
+</div>
+<div class="birthday-list-container">
+<ul class="birthday-list" id="birthday-list">
+<!-- Данные будут добавлены через JavaScript -->
+</ul>
+</div>
+</div>
+</div>
+</div>
+<!-- Модальное окно каналов участников -->
+<div class="modal" id="channels-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Каналы участников</h2>
+</div>
+<div class="modal-body">
+<div class="channels-list-container">
+<table class="channels-table">
+<thead>
+<tr>
+<th>Участник</th>
+<th>Канал</th>
+</tr>
+</thead>
+<tbody id="channels-table-body">
+<!-- Данные будут добавлены через JavaScript -->
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</div>
+<div class="modal" id="collabs-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Актуальные коллабы и движи</h2>
+</div>
+<div class="modal-body">
+<div class="collabs-list" id="collabs-list">
+<!-- Данные будут добавлены через JavaScript -->
+</div>
+</div>
+</div>
+</div>
+<!-- Модальное окно статистики -->
+<div class="modal stats-modal" id="stats-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Статистика участников</h2>
+</div>
+<div class="modal-body">
+<div class="stats-info">
+<p>Дата последнего обновления: 26.08.2025</p>
+</div>
+<div class="stats-section">
+<h3>Топ-15 за все время</h3>
+<div class="stats-list">
+<div class="stats-item">🥇@chericherimike 27922</div>
+<div class="stats-item">🥈@marat_sultanov 25065</div>
+<div class="stats-item">🥉@nemakarovnekino 20318</div>
+<div class="stats-item">🏆@nastaz 15391</div>
+<div class="stats-item">🏆@honeyfeelfreeee 13816</div>
+<div class="stats-item">🏆@mrrprsm 13338</div>
+<div class="stats-item">🏆@swallowtherabbit 13099</div>
+<div class="stats-item">🏆@shillerAV 10936</div>
+<div class="stats-item">🏅@damboooy 10808</div>
+<div class="stats-item">🏅@yagorlukanin 8818</div>
+<div class="stats-item">🏅@sevenonm 7837</div>
+<div class="stats-item">🏅@diana_kanda 7153</div>
+<div class="stats-item">🏅@felixkriventzov 7053</div>
+<div class="stats-item">🏅@oleglyfar 5942</div>
+<div class="stats-item">🏅@Sadbuttrue99 5590</div>
+</div>
+</div>
+<div class="stats-section">
+<h3>Топ за неделю</h3>
+<div class="stats-list">
+<div class="stats-item">🥇@chericherimike 1306</div>
+<div class="stats-item">🥈@damboooy 1015</div>
+<div class="stats-item">🥉@mrrprsm 881</div>
+<div class="stats-item">🏆@nastaz 801</div>
+<div class="stats-item">🏆@marat_sultanov 735</div>
+<div class="stats-item">🏅@nemakarovnekino 678</div>
+<div class="stats-item">🏅@felixkriventzov 547</div>
+<div class="stats-item">🏅@swallowtherabbit 397</div>
+<div class="stats-item">🏅@mimivasya 389</div>
+<div class="stats-item">🏅@MariyaSrkn 383</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Модальное окно черного списка -->
+<div class="modal" id="blacklist-modal">
+<div class="modal-content">
+<div class="modal-header">
+<span class="close">×</span>
+<h2>Черный список каналов</h2>
+</div>
+<div class="modal-body">
+<div class="blacklist-container">
+<ul class="blacklist-list">
+<li>💀 <a class="channel-link" href="https://t.me/spletterboxd" target="_blank">(SP)LETTERBOXD</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/Kinoshnayabest1" target="_blank">Киношная №1</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/PhilosophyOfCinema" target="_blank">Философия кино</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/Kinohardcore" target="_blank">Кинохардкор</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/v_krugu_adminov" target="_blank">Круглосуточный сеанс</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/scalpelnazub" target="_blank">скальпель на зуб</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/bylabutinka" target="_blank">Лабутинка, что по кино?</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/kiryambit" target="_blank">Кирямбит</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/beforethenight" target="_blank">before your night 18+</a></li>
+<li>💀 <a class="channel-link" href="https://t.me/monkeysandfilms" target="_blank">Обезьяны и кино</a></li>
+</ul>
+</div>
+</div>
+</div>
+</div>
 <script>
     // Данные из Excel (только те, у кого указан день рождения)
     const birthdayData = [
@@ -1036,7 +1025,9 @@ footer {
         {username: "@mother_night", date: "2025-08-20 00:00:00"},
         {username: "@AStarzhinskaya", date: "2025-08-24 00:00:00"},
         {username: "@pollynoid", date: "2025-08-25 00:00:00"},
+        {username: "@kingshisui", date: "2025-08-30 00:00:00"},
         {username: "@bez_golubey", date: "2025-09-02 00:00:00"},
+        {username: "@ulatya", date: "2025-09-06 00:00:00"},
         {username: "@Sadbuttrue99", date: "2025-09-09 00:00:00"},
         {username: "@nastaz", date: "2025-09-14 00:00:00"},
         {username: "@diana_kanda", date: "2025-09-17 00:00:00"},
@@ -1065,36 +1056,51 @@ footer {
         {username: "@aegarev", channel: "@inBrukes"},
         {username: "@AkTenma", channel: "@gyarandu"},
         {username: "@aliya_csc", channel: "@chacun_son_cinema"},
+        {username: "@antonmulatov", channel: "@antoshha18"},
         {username: "@aopetrov31295", channel: "@ugolokhorror"},
+        {username: "@ardavazdovna", channel: "@vtemnomzale"},
+        {username: "@Arinathor", channel: "@arinainkino"},
+        {username: "@artmulesa", channel: "@historyofcinema2022"},
         {username: "@AStarzhinskaya", channel: "@bringchangefilm"},
         {username: "@ayamusy", channel: "@ayafilms"},
         {username: "@bez_golubey", channel: "@LifeIsScarier"},
         {username: "@Bitch_Paketovna", channel: "@bitch_paketovna_and_minho"},
         {username: "@bo_zakroy", channel: "@bogdana_zakroy"},
+        {username: "@callmestarlord", channel: "@kinogramma"},
         {username: "@cassiuscrowe", channel: "@thedirectorscut"},
+        {username: "@chainsawwmn", channel: "@larsville"},
         {username: "@chericherimike", channel: "@maysaltburn"},
+        {username: "@Cnizek", channel: "@moonlier"},
         {username: "@daazhe_ya", channel: "@kinodan"},
         {username: "@damboooy", channel: "@non_script"},
         {username: "@DanyaTetris", channel: "@fcjulieandrews"},
         {username: "@dbegiina", channel: "@dbgna"},
         {username: "@denchikizvv", channel: "@horrorreview"},
         {username: "@diana_kanda", channel: "@reflective_kinoman"},
+        {username: "@dksimmons", channel: "@zhizncovra"},
         {username: "@dyateldyatel", channel: "@alyashorror"},
         {username: "@eeleninn", channel: "@kinoclitic"},
         {username: "@felixkriventzov", channel: "@seance2330"},
         {username: "@fff_anton", channel: "@horrortosh"},
+        {username: "@furyjuliana", channel: "@cinemagaga"},
+        {username: "@geregievaelena", channel: "@cinematheatreG"},
         {username: "@honeyfeelfreeee", channel: "@honeyfeelfreee"},
         {username: "@Julls_91", channel: "@kinogedonist"},
         {username: "@jwrlbex", channel: "@jwrlbexxeblrwj"},
         {username: "@kessedy", channel: "@westside_movieclub"},
+        {username: "@kingshisui", channel: "@betweentwolungs"},
         {username: "@kinokate911", channel: "@kinokatetg"},
+        {username: "@kinonutaya_Julia", channel: "@kinonutaya"},
         {username: "@kokkonen_a", channel: "@okaybyeeeeeeee"},
         {username: "@kulikovadi", channel: "@horrorreview"},
         {username: "@KurosawaFellini", channel: "@NuevoCinemaParadiso"},
         {username: "@kvitkus", channel: "@MaxAndSe"},
+        {username: "@lamentropy", channel: "@angelscctv"},
         {username: "@marat_sultanov", channel: "@stupidthough"},
         {username: "@margeeknal", channel: "@emmettbrowneffect, @margeeeeknal"},
         {username: "@MariyaSrkn", channel: "@mariya_srkn"},
+        {username: "@Marya_leee", channel: "@NeLauraPalmer"},
+        {username: "@Maryana_C", channel: "@godofmoviees"},
         {username: "@mathenka", channel: "@mathenka_mia"},
         {username: "@mimivasya", channel: "@miminolon"},
         {username: "@mitsurori", channel: "@sk8ergirl_exe"},
@@ -1102,10 +1108,15 @@ footer {
         {username: "@mrrprsm", channel: "@trkvsk_vrt"},
         {username: "@nastaz", channel: "@litwatch"},
         {username: "@nemakarovnekino", channel: "@nemakarov"},
+        {username: "@night_lirika19", channel: "@drunk_cinema"},
+        {username: "@nk1618", channel: "@ntshkino"},
         {username: "@oleglyfar", channel: "@house_of_light"},
+        {username: "@onniLexie", channel: "@cinemalighthouse"},
+        {username: "@pinkplushka", channel: "@smotru_kino"},
         {username: "@pinnballwizzard", channel: "@aspectratiofilm"},
         {username: "@PKhA88", channel: "@bodycountfilms"},
         {username: "@pollynoid", channel: "@beekindrewind"},
+        {username: "@PRHottt", channel: "@couriernewsearials"},
         {username: "@puga_hapuga", channel: "@krysota"},
         {username: "@Sadbuttrue99", channel: "@kmcinema"},
         {username: "@Satanlair", channel: "@satanlairtatt"},
@@ -1113,6 +1124,10 @@ footer {
         {username: "@shillerAV", channel: "@kinowelt"},
         {username: "@swallowtherabbit", channel: "@transgressivesamourai"},
         {username: "@ta_pauline", channel: "@pollydaily"},
+        {username: "@therealtimson", channel: "@timsopedia"},
+        {username: "@ulatya", channel: "@cinematiquechiquechirique"},
+        {username: "@vampflacko", channel: "@popcontext"},
+        {username: "@white_sophie", channel: "@tanya_horrorland"},
         {username: "@yagorlukanin", channel: "@DoubleCageRage"},
         {username: "@zaramomdzhian", channel: "@faaangirling"},
         {username: "@zavarikhin2008", channel: "@DoubleCageRage"}
@@ -1177,7 +1192,8 @@ footer {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-        ctx.fillStyle = '#f7406b';
+ctx.fillStyle = 'rgba(255, 156, 195, 0.3)'; // #fb607f в RGB + opacity
+
         ctx.font = `${fontSize}px monospace`;
         
         for (let i = 0; i < drops.length; i++) {
@@ -1405,44 +1421,12 @@ function createExportTop(title, items, isAllTime = false) {
 }
 const collabsData = [
     {
-        title: "Флешмоб плохих бойфрендов",
+        title: "Любимые фильмы и сериалы про школу",
         status: "active",
-        description: "Расскажите истории о самых неудачных отношениях в кино и реальной жизни. Делимся самыми запоминающимися моментами с плохими бойфрендами из фильмов и сериалов.",
-        organizer: "@cinema_lovers",
-        deadline: "15.09.2025",
-        participants: ["@chericherimike", "@marat_sultanov", "@nastaz", "@honeyfeelfreeee", "@mrrprsm", "+15 участников"]
-    },
-    {
-        title: "Кинопробег сентября",
-        status: "active",
-        description: "Ежемесячный марафон просмотра фильмов. В этом месяце тема - 'Осенняя меланхолия'. Смотрим фильмы, которые идеально передают осеннее настроение.",
-        organizer: "@film_marathon",
-        deadline: "30.09.2025",
-        participants: ["@nemakarovnekino", "@damboooy", "@yagorlukanin", "@sevenonm", "@diana_kanda"]
-    },
-    {
-        title: "Неделя азиатского кино",
-        status: "upcoming",
-        description: "Погружение в мир восточного кинематографа. От корейских драм до японских аниме и китайских боевиков. Открываем для себя новые горизонты азиатского кино.",
-        organizer: "@asia_cinema_club",
-        deadline: "01.10.2025",
-        participants: ["@felixkriventzov", "@oleglyfar", "@Sadbuttrue99", "@mimivasya", "@MariyaSrkn"]
-    },
-    {
-        title: "Хоррор-марафон Хэллоуин",
-        status: "upcoming",
-        description: "Подготовка к Хэллоуину начинается заранее! Смотрим самые страшные фильмы ужасов, делимся рецензиями и выбираем лучший хоррор сезона.",
-        organizer: "@horror_nights",
-        deadline: "31.10.2025",
-        participants: ["@denchikizvv", "@fff_anton", "@aopetrov31295", "@kinokate911"]
-    },
-    {
-        title: "Ретро-вечеринка 90-х",
-        status: "completed",
-        description: "Ностальгический тур по лучшим фильмам 90-х годов. Вспоминаем культовые ленты, которые определили целое поколение.",
-        organizer: "@retro_cinema",
-        deadline: "15.08.2025",
-        participants: ["@shillerAV", "@swallowtherabbit", "@yagorlukanin", "@nastaz", "@marat_sultanov"]
+        description: "1 сентября в 12:00 публикуем пост про фильмы/сериалы, которые первыми приходят в голову при упоминании этой темы (от 1 до 3), с хэштегом #головузабылидома",
+        organizer: "@cinematiquechiquechirique",
+        deadline: "01.09.2025",
+        participants: ["Все желающие"]
     }
 ];
 
@@ -1623,7 +1607,7 @@ async function exportTopToImage(title, items, isAllTime = false) {
             const img = document.createElement('img');
             img.src = canvas.toDataURL('image/png');
             img.style.maxWidth = '100%';
-            img.style.border = '2px solid #f7406b';
+            img.style.border = '2px solid #ff9cc3';
             img.style.borderRadius = '10px';
             img.style.maxHeight = '70vh';
             img.style.objectFit = 'contain';
