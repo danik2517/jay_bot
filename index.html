@@ -1,11 +1,12 @@
 <!DOCTYPE html>
-
 <html lang="ru">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
-<title>Джей-бот</title>
-<style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Джей-бот</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<script src="{{ url_for('static',filename='js/jquery-3.3.1.min.js') }}"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script><style>
 * {
     margin: 0;
     padding: 0;
@@ -20,15 +21,15 @@
 }
 
 body {
-    background-color: #0b0b10;
-    color: #ff9cc3;
+    background-color: #1f1f1f;
+    color: #f7406b;
     overflow-x: hidden;
     line-height: 1.6;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     font-family: 'Matrix', 'Courier New', monospace;
-    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    text-shadow: 0 0 5px #f7406b;
 }
 /* Добавьте эти стили в существующие медиа-запросы */
 @media (max-width: 768px) {
@@ -84,8 +85,8 @@ body {
     left: 0;
     width: 100%;
     height: 100%;
-    z-index: -3;
-    opacity: 0.85;
+    z-index: -1;
+    opacity: 0.7;
     pointer-events: none;
 }
 
@@ -101,14 +102,13 @@ body {
 header {
     text-align: center;
     padding: 20px 0;
-    border-bottom: 1px solid #ff9cc3;
+    border-bottom: 1px solid #f7406b;
     margin-bottom: 20px;
 }
 
 h1 {
-    color: #ff9cc3;
     font-size: 2.2rem;
-    text-shadow: 0 0 10px #ff9cc3;
+    text-shadow: 0 0 10px #f7406b;
     letter-spacing: 3px;
     margin-bottom: 10px;
     font-family: 'Matrix', 'Courier New', monospace;
@@ -116,7 +116,7 @@ h1 {
 
 .subtitle {
     font-size: 1rem;
-    opacity: 0.85;
+    opacity: 0.8;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -134,8 +134,8 @@ nav {
     max-width: 500px;
     padding: 18px;
     text-align: center;
-    background-color: rgba(15, 15, 20, 0.85);
-    border: 1px solid #ff9cc3;
+    background-color: rgba(10, 10, 10, 0.8);
+    border: 1px solid #f7406b;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
@@ -146,9 +146,9 @@ nav {
 }
 
 .menu-item:hover {
-    background-color: rgba(255, 156, 195, 0.22);
+    background-color: rgba(247, 64, 107, 0.2);
     transform: translateY(-5px);
-    box-shadow: 0 5px 15px rgba(255, 156, 195, 0.25);
+    box-shadow: 0 5px 15px rgba(247, 64, 107, 0.3);
 }
 
 .menu-item::before {
@@ -169,20 +169,20 @@ nav {
 }
 
 @keyframes glitch {
-    0% { text-shadow: 0 0 10px #ff9cc3; }
-    95% { text-shadow: 0 0 10px #ff9cc3; }
-    96% { text-shadow: -2px -2px 0 #ff4f7b, 2px 2px 0 #ffb6c9; }
-    97% { text-shadow: 2px 2px 0 #ff4f7b, -2px -2px 0 #ffb6c9; }
-    98% { text-shadow: -2px 2px 0 #ff4f7b, 2px -2px 0 #ffb6c9; }
-    99% { text-shadow: 2px -2px 0 #ff4f7b, -2px 2px 0 #ffb6c9; }
-    100% { text-shadow: 0 0 10px #ff9cc3; }
+    0% { text-shadow: 0 0 10px #f7406b; }
+    95% { text-shadow: 0 0 10px #f7406b; }
+    96% { text-shadow: -2px -2px 0 #ff3366, 2px 2px 0 #ff99bb; }
+    97% { text-shadow: 2px 2px 0 #ff3366, -2px -2px 0 #ff99bb; }
+    98% { text-shadow: -2px 2px 0 #ff3366, 2px -2px 0 #ff99bb; }
+    99% { text-shadow: 2px -2px 0 #ff3366, -2px 2px 0 #ff99bb; }
+    100% { text-shadow: 0 0 10px #f7406b; }
 }
 
 footer {
     text-align: center;
     padding: 20px 0;
     margin-top: auto;
-    border-top: 1px solid #ff9cc3;
+    border-top: 1px solid #f7406b;
     font-size: 0.8rem;
     font-family: 'Matrix', 'Courier New', monospace;
 }
@@ -195,17 +195,17 @@ footer {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: rgba(0, 0, 0, 0.92);
+    background-color: rgba(0, 0, 0, 0.9);
     z-index: 100;
     overflow: hidden;
     padding: 20px;
 }
 
 .modal-content {
-    background-color: rgba(12, 12, 18, 0.95);
+    background-color: rgba(15, 5, 10, 0.95);
     margin: 2% auto;
     padding: 20px;
-    border: 1px solid #ff9cc3;
+    border: 1px solid #f7406b;
     width: 90%;
     max-width: 800px;
     max-height: 90vh;
@@ -217,7 +217,7 @@ footer {
 }
 
 .close {
-    color: #ff9cc3;
+    color: #f7406b;
     float: right;
     font-size: 28px;
     font-weight: bold;
@@ -228,12 +228,12 @@ footer {
 
 .close:hover {
     color: red;
-    text-shadow: 0 0 5px #ff4f7b;
+    text-shadow: 0 0 5px #ff3366;
 }
 
 .modal-header {
     padding: 10px 0;
-    border-bottom: 1px solid #ff9cc3;
+    border-bottom: 1px solid #f7406b;
     margin-bottom: 15px;
     font-family: 'Matrix', 'Courier New', monospace;
     flex-shrink: 0;
@@ -250,7 +250,7 @@ footer {
 .nearest-birthday {
     background-color: rgba(247, 64, 107, 0.1);
     padding: 15px;
-    border: 1px solid #ff9cc3;
+    border: 1px solid #f7406b;
     border-radius: 5px;
     margin-bottom: 20px;
     font-family: 'Matrix', 'Courier New', monospace;
@@ -259,8 +259,8 @@ footer {
 
 .nearest-birthday h3 {
     margin-bottom: 10px;
-    color: #ff9cc3;
-    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    color: #f7406b;
+    text-shadow: 0 0 5px #f7406b;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -273,24 +273,24 @@ footer {
 .channels-table th, .channels-table td {
     padding: 10px;
     text-align: left;
-    border-bottom: 1px dashed #ff9cc3;
+    border-bottom: 1px dashed #f7406b;
 }
 
 .channels-table th {
-    border-bottom: 1px solid #ff9cc3;
+    border-bottom: 1px solid #f7406b;
     font-weight: bold;
 }
 
 .channel-link {
-    color: #ff9cc3;
+    color: #f7406b;
     text-decoration: none;
     transition: text-shadow 0.3s;
     font-family: 'Matrix', 'Courier New', monospace;
-    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    text-shadow: 0 0 5px #f7406b;
 }
 
 .channel-link:hover {
-    text-shadow: 0 0 10px #ff9cc3;
+    text-shadow: 0 0 10px #f7406b;
     text-decoration: underline;
 }
 
@@ -311,7 +311,7 @@ footer {
 
 .birthday-item {
     padding: 12px;
-    border-bottom: 1px dashed #ff9cc3;
+    border-bottom: 1px dashed #f7406b;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -324,8 +324,8 @@ footer {
 
 .birthday-username {
     font-weight: bold;
-    color: #ff9cc3;
-    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    color: #f7406b;
+    text-shadow: 0 0 5px #f7406b;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -341,8 +341,8 @@ footer {
 }
 
 .collab-item {
-    background: rgba(255, 156, 195, 0.10);
-    border: 1px solid #ff9cc3;
+    background: rgba(247, 64, 107, 0.1);
+    border: 1px solid #f7406b;
     border-radius: 6px;
     padding: 12px;
     cursor: pointer;
@@ -351,7 +351,7 @@ footer {
 }
 
 .collab-item:hover {
-    background: rgba(255, 156, 195, 0.14);
+    background: rgba(247, 64, 107, 0.15);
 }
 
 .collab-header {
@@ -363,8 +363,8 @@ footer {
 
 .collab-title {
     font-weight: bold;
-    color: #ff9cc3;
-    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    color: #f7406b;
+    text-shadow: 0 0 5px #f7406b;
     font-size: 1rem;
     flex: 1;
 }
@@ -379,20 +379,20 @@ footer {
 
 .status-active {
     background: rgba(76, 175, 80, 0.2);
-    color: #66bb6a;
-    border: 1px solid #66bb6a;
+    color: #4caf50;
+    border: 1px solid #4caf50;
 }
 
 .status-completed {
     background: rgba(244, 67, 54, 0.2);
-    color: #ff6f7d;
-    border: 1px solid #ff6f7d;
+    color: #f44336;
+    border: 1px solid #f44336;
 }
 
 .status-upcoming {
     background: rgba(33, 150, 243, 0.2);
-    color: #64b5f6;
-    border: 1px solid #64b5f6;
+    color: #2196f3;
+    border: 1px solid #2196f3;
 }
 
 .collab-details {
@@ -410,12 +410,12 @@ footer {
     padding: 8px;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 4px;
-    border-left: 2px solid #ff9cc3;
+    border-left: 2px solid #f7406b;
 }
 
 .collab-detail-label {
     font-weight: bold;
-    color: #ffb6c9;
+    color: #ff99bb;
     margin-right: 5px;
 }
 
@@ -427,11 +427,11 @@ footer {
 }
 
 .collab-participant {
-    background: rgba(255, 156, 195, 0.14);
+    background: rgba(247, 64, 107, 0.15);
     padding: 2px 6px;
     border-radius: 10px;
     font-size: 0.75rem;
-    border: 1px dashed #ff9cc3;
+    border: 1px dashed #f7406b;
 }
 
 .collab-arrow {
@@ -488,7 +488,7 @@ footer {
 
 .blacklist-list li {
     padding: 12px;
-    border-bottom: 1px dashed #ff9cc3;
+    border-bottom: 1px dashed #f7406b;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -501,7 +501,7 @@ footer {
     margin-bottom: 20px;
     padding: 10px;
     background-color: rgba(247, 64, 107, 0.1);
-    border: 1px solid #ff9cc3;
+    border: 1px solid #f7406b;
     border-radius: 5px;
     font-family: 'Matrix', 'Courier New', monospace;
     flex-shrink: 0;
@@ -513,9 +513,9 @@ footer {
 }
 
 .stats-section h3 {
-    color: #ff9cc3;
+    color: #f7406b;
     margin-bottom: 15px;
-    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    text-shadow: 0 0 5px #f7406b;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -523,7 +523,7 @@ footer {
     margin-bottom: 15px;
     max-height: 300px;
     overflow-y: auto;
-    border: 1px solid #ff9cc3;
+    border: 1px solid #f7406b;
     border-radius: 5px;
     background: rgba(247, 64, 107, 0.05);
 }
@@ -533,22 +533,22 @@ footer {
 }
 
 .stats-list::-webkit-scrollbar-track {
-    background: rgba(255, 156, 195, 0.10);
+    background: rgba(247, 64, 107, 0.1);
     border-radius: 3px;
 }
 
 .stats-list::-webkit-scrollbar-thumb {
-    background: #ff9cc3;
+    background: #f7406b;
     border-radius: 3px;
 }
 
 .stats-list::-webkit-scrollbar-thumb:hover {
-    background: #ff4f7b;
+    background: #ff3366;
 }
 
 .stats-item {
     padding: 10px;
-    border-bottom: 1px dashed #ff9cc3;
+    border-bottom: 1px dashed #f7406b;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -557,35 +557,35 @@ footer {
 }
 
 .export-btn {
-    background-color: rgba(255, 156, 195, 0.22);
-    color: #ff9cc3;
-    border: 1px solid #ff9cc3;
+    background-color: rgba(247, 64, 107, 0.2);
+    color: #f7406b;
+    border: 1px solid #f7406b;
     padding: 10px 15px;
     border-radius: 5px;
     cursor: pointer;
     transition: all 0.3s ease;
     font-family: 'Matrix', 'Courier New', monospace;
-    text-shadow: 0 0 3px #ff9cc3;
+    text-shadow: 0 0 3px #f7406b;
     flex-shrink: 0;
 }
 
 .export-btn:hover {
-    background-color: rgba(255, 156, 195, 0.35);
-    box-shadow: 0 0 10px rgba(255, 156, 195, 0.45);
+    background-color: rgba(247, 64, 107, 0.4);
+    box-shadow: 0 0 10px rgba(247, 64, 107, 0.5);
     transform: translateY(-2px);
 }
 
 /* Стили для экспорта топа */
 .top-export-container {
-    background: linear-gradient(135deg, #101216 0%, #161a20 100%);
-    border: 3px solid #ff9cc3;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a0a14 100%);
+    border: 3px solid #f7406b;
     border-radius: 15px;
     padding: 30px;
     margin: 20px auto;
     max-width: 500px;
     max-height: 90vh;
     overflow-y: auto;
-    box-shadow: 0 0 30px rgba(255, 156, 195, 0.35);
+    box-shadow: 0 0 30px rgba(247, 64, 107, 0.4);
     display: flex;
     flex-direction: column;
 }
@@ -593,8 +593,8 @@ footer {
 .top-export-header {
     text-align: center;
     margin-bottom: 25px;
-    color: #ff9cc3;
-    text-shadow: 0 0 10px #ff9cc3;
+    color: #f7406b;
+    text-shadow: 0 0 10px #f7406b;
     font-size: 24px;
     flex-shrink: 0;
 }
@@ -607,7 +607,7 @@ footer {
 
 .top-export-date {
     font-size: 16px;
-    opacity: 0.85;
+    opacity: 0.8;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
@@ -625,17 +625,17 @@ footer {
 }
 
 .top-export-list::-webkit-scrollbar-track {
-    background: rgba(255, 156, 195, 0.10);
+    background: rgba(247, 64, 107, 0.1);
     border-radius: 3px;
 }
 
 .top-export-list::-webkit-scrollbar-thumb {
-    background: #ff9cc3;
+    background: #f7406b;
     border-radius: 3px;
 }
 
 .top-export-list::-webkit-scrollbar-thumb:hover {
-    background: #ff4f7b;
+    background: #ff3366;
 }
 
 .top-export-item {
@@ -644,20 +644,20 @@ footer {
     align-items: center;
     padding: 12px 15px;
     margin: 8px 0;
-    background: rgba(255, 156, 195, 0.10);
-    border: 1px solid #ff9cc3;
+    background: rgba(247, 64, 107, 0.1);
+    border: 1px solid #f7406b;
     border-radius: 8px;
     font-family: 'Matrix', 'Courier New', monospace;
 }
 
 .top-export-username {
     font-weight: bold;
-    color: #ff9cc3;
-    text-shadow: 0 0 2px rgba(255,255,255,0.2);
+    color: #f7406b;
+    text-shadow: 0 0 5px #f7406b;
 }
 
 .top-export-score {
-    color: #ffb6c9;
+    color: #ff99bb;
     font-weight: bold;
 }
 
@@ -668,10 +668,10 @@ footer {
     transform: translate(-50%, -50%);
     background: rgba(0, 0, 0, 0.9);
     padding: 20px;
-    border: 2px solid #ff9cc3;
+    border: 2px solid #f7406b;
     border-radius: 10px;
     z-index: 1000;
-    color: #ff9cc3;
+    color: #f7406b;
     text-align: center;
     font-family: 'Matrix', 'Courier New', monospace;
 }
@@ -684,7 +684,7 @@ footer {
 }
 
 .download-btn {
-    background: linear-gradient(135deg, #ff9cc3 0%, #ff4f7b 100%);
+    background: linear-gradient(135deg, #f7406b 0%, #ff3366 100%);
     color: black;
     border: none;
     padding: 8px 15px;
@@ -841,154 +841,165 @@ footer {
 </style>
 </head>
 <body>
-<canvas id="matrix-bg"></canvas>
-<div class="container">
-<header>
-<h1 class="glitch">Джей и молчаливый PR</h1>
-<p class="subtitle">Красная или синяя таблетка?</p>
-</header>
-<nav>
-<div class="menu-item">Актуальные коллабы и движи</div>
-<div class="menu-item">Дни рождения</div>
-<div class="menu-item">Каналы участников</div>
-<div class="menu-item">Статистика</div>
-<div class="menu-item">Черный список каналов</div>
-</nav>
-<footer>
-<p>Версия 1.0.0<br/>© 2025</p>
-</footer>
+    <canvas id="matrix-bg"></canvas>
+    
+    <div class="container">
+        <header>
+            <h1 class="glitch">Джей и молчаливый PR</h1>
+            <p class="subtitle">Красная или синяя таблетка?</p>
+        </header>
+        
+        <nav>
+            <div class="menu-item">Актуальные коллабы и движи</div>
+            <div class="menu-item">Дни рождения</div>
+            <div class="menu-item">Каналы участников</div>
+            <div class="menu-item">Статистика</div>
+            <div class="menu-item">Черный список каналов</div>
+        </nav>
+        
+        <footer>
+            <p>Версия 1.0.0<br>© 2025</p>
+        </footer>
+    </div>
+
+    <!-- Модальное окно дней рождения -->
+    <div id="birthdays-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Дни рождения участников</h2>
+            </div>
+            <div class="modal-body">
+                <div class="nearest-birthday" id="nearest-birthday">
+                    <h3>Ближайшие дни рождения:</h3>
+                    <div id="nearest-birthdays-list"></div>
+                </div>
+                <div class="birthday-list-container">
+                    <ul class="birthday-list" id="birthday-list">
+                        <!-- Данные будут добавлены через JavaScript -->
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно каналов участников -->
+    <div id="channels-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Каналы участников</h2>
+            </div>
+            <div class="modal-body">
+                <div class="channels-list-container">
+                    <table class="channels-table">
+                        <thead>
+                            <tr>
+                                <th>Участник</th>
+                                <th>Канал</th>
+                            </tr>
+                        </thead>
+                        <tbody id="channels-table-body">
+                            <!-- Данные будут добавлены через JavaScript -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+<div id="collabs-modal" class="modal">
+    <div class="modal-content">
+        <div class="modal-header">
+            <span class="close">&times;</span>
+            <h2>Актуальные коллабы и движи</h2>
+        </div>
+        <div class="modal-body">
+            <div class="collabs-list" id="collabs-list">
+                <!-- Данные будут добавлены через JavaScript -->
+            </div>
+        </div>
+    </div>
 </div>
-<!-- Модальное окно дней рождения -->
-<div class="modal" id="birthdays-modal">
-<div class="modal-content">
-<div class="modal-header">
-<span class="close">×</span>
-<h2>Дни рождения участников</h2>
-</div>
-<div class="modal-body">
-<div class="nearest-birthday" id="nearest-birthday">
-<h3>Ближайшие дни рождения:</h3>
-<div id="nearest-birthdays-list"></div>
-</div>
-<div class="birthday-list-container">
-<ul class="birthday-list" id="birthday-list">
-<!-- Данные будут добавлены через JavaScript -->
-</ul>
-</div>
-</div>
-</div>
-</div>
-<!-- Модальное окно каналов участников -->
-<div class="modal" id="channels-modal">
-<div class="modal-content">
-<div class="modal-header">
-<span class="close">×</span>
-<h2>Каналы участников</h2>
-</div>
-<div class="modal-body">
-<div class="channels-list-container">
-<table class="channels-table">
-<thead>
-<tr>
-<th>Участник</th>
-<th>Канал</th>
-</tr>
-</thead>
-<tbody id="channels-table-body">
-<!-- Данные будут добавлены через JavaScript -->
-</tbody>
-</table>
-</div>
-</div>
-</div>
-</div>
-<div class="modal" id="collabs-modal">
-<div class="modal-content">
-<div class="modal-header">
-<span class="close">×</span>
-<h2>Актуальные коллабы и движи</h2>
-</div>
-<div class="modal-body">
-<div class="collabs-list" id="collabs-list">
-<!-- Данные будут добавлены через JavaScript -->
-</div>
-</div>
-</div>
-</div>
-<!-- Модальное окно статистики -->
-<div class="modal stats-modal" id="stats-modal">
-<div class="modal-content">
-<div class="modal-header">
-<span class="close">×</span>
-<h2>Статистика участников</h2>
-</div>
-<div class="modal-body">
-<div class="stats-info">
-<p>Дата последнего обновления: 26.08.2025</p>
-</div>
-<div class="stats-section">
-<h3>Топ-15 за все время</h3>
-<div class="stats-list">
-<div class="stats-item">🥇@chericherimike 27922</div>
-<div class="stats-item">🥈@marat_sultanov 25065</div>
-<div class="stats-item">🥉@nemakarovnekino 20318</div>
-<div class="stats-item">🏆@nastaz 15391</div>
-<div class="stats-item">🏆@honeyfeelfreeee 13816</div>
-<div class="stats-item">🏆@mrrprsm 13338</div>
-<div class="stats-item">🏆@swallowtherabbit 13099</div>
-<div class="stats-item">🏆@shillerAV 10936</div>
-<div class="stats-item">🏅@damboooy 10808</div>
-<div class="stats-item">🏅@yagorlukanin 8818</div>
-<div class="stats-item">🏅@sevenonm 7837</div>
-<div class="stats-item">🏅@diana_kanda 7153</div>
-<div class="stats-item">🏅@felixkriventzov 7053</div>
-<div class="stats-item">🏅@oleglyfar 5942</div>
-<div class="stats-item">🏅@Sadbuttrue99 5590</div>
-</div>
-</div>
-<div class="stats-section">
-<h3>Топ за неделю</h3>
-<div class="stats-list">
-<div class="stats-item">🥇@chericherimike 1306</div>
-<div class="stats-item">🥈@damboooy 1015</div>
-<div class="stats-item">🥉@mrrprsm 881</div>
-<div class="stats-item">🏆@nastaz 801</div>
-<div class="stats-item">🏆@marat_sultanov 735</div>
-<div class="stats-item">🏅@nemakarovnekino 678</div>
-<div class="stats-item">🏅@felixkriventzov 547</div>
-<div class="stats-item">🏅@swallowtherabbit 397</div>
-<div class="stats-item">🏅@mimivasya 389</div>
-<div class="stats-item">🏅@MariyaSrkn 383</div>
-</div>
-</div>
-</div>
-</div>
-</div>
-<!-- Модальное окно черного списка -->
-<div class="modal" id="blacklist-modal">
-<div class="modal-content">
-<div class="modal-header">
-<span class="close">×</span>
-<h2>Черный список каналов</h2>
-</div>
-<div class="modal-body">
-<div class="blacklist-container">
-<ul class="blacklist-list">
-<li>💀 <a class="channel-link" href="https://t.me/spletterboxd" target="_blank">(SP)LETTERBOXD</a></li>
-<li>💀 <a class="channel-link" href="https://t.me/Kinoshnayabest1" target="_blank">Киношная №1</a></li>
-<li>💀 <a class="channel-link" href="https://t.me/PhilosophyOfCinema" target="_blank">Философия кино</a></li>
-<li>💀 <a class="channel-link" href="https://t.me/Kinohardcore" target="_blank">Кинохардкор</a></li>
-<li>💀 <a class="channel-link" href="https://t.me/v_krugu_adminov" target="_blank">Круглосуточный сеанс</a></li>
-<li>💀 <a class="channel-link" href="https://t.me/scalpelnazub" target="_blank">скальпель на зуб</a></li>
-<li>💀 <a class="channel-link" href="https://t.me/bylabutinka" target="_blank">Лабутинка, что по кино?</a></li>
-<li>💀 <a class="channel-link" href="https://t.me/kiryambit" target="_blank">Кирямбит</a></li>
-<li>💀 <a class="channel-link" href="https://t.me/beforethenight" target="_blank">before your night 18+</a></li>
-<li>💀 <a class="channel-link" href="https://t.me/monkeysandfilms" target="_blank">Обезьяны и кино</a></li>
-</ul>
-</div>
-</div>
-</div>
-</div>
+    <!-- Модальное окно статистики -->
+    <div id="stats-modal" class="modal stats-modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Статистика участников</h2>
+            </div>
+            <div class="modal-body">
+                <div class="stats-info">
+                    <p>Дата последнего обновления: 26.08.2025</p>
+                </div>
+                
+                <div class="stats-section">
+                    <h3>Топ-15 за все время</h3>
+                    <div class="stats-list">
+                        <div class="stats-item">🥇@chericherimike 27922</div>
+                        <div class="stats-item">🥈@marat_sultanov 25065</div>
+                        <div class="stats-item">🥉@nemakarovnekino 20318</div>
+                        <div class="stats-item">🏆@nastaz 15391</div>
+                        <div class="stats-item">🏆@honeyfeelfreeee 13816</div>
+                        <div class="stats-item">🏆@mrrprsm 13338</div>
+                        <div class="stats-item">🏆@swallowtherabbit 13099</div>
+                        <div class="stats-item">🏆@shillerAV 10936</div>
+                        <div class="stats-item">🏅@damboooy 10808</div>
+                        <div class="stats-item">🏅@yagorlukanin 8818</div>
+                        <div class="stats-item">🏅@sevenonm 7837</div>
+                        <div class="stats-item">🏅@diana_kanda 7153</div>
+                        <div class="stats-item">🏅@felixkriventzov 7053</div>
+                        <div class="stats-item">🏅@oleglyfar 5942</div>
+                        <div class="stats-item">🏅@Sadbuttrue99 5590</div>
+                    </div>
+                 
+                </div>
+                
+                <div class="stats-section">
+                    <h3>Топ за неделю</h3>
+                    <div class="stats-list">
+                        <div class="stats-item">🥇@chericherimike 1306</div>
+                        <div class="stats-item">🥈@damboooy 1015</div>
+                        <div class="stats-item">🥉@mrrprsm 881</div>
+                        <div class="stats-item">🏆@nastaz 801</div>
+                        <div class="stats-item">🏆@marat_sultanov 735</div>
+                        <div class="stats-item">🏅@nemakarovnekino 678</div>
+                        <div class="stats-item">🏅@felixkriventzov 547</div>
+                        <div class="stats-item">🏅@swallowtherabbit 397</div>
+                        <div class="stats-item">🏅@mimivasya 389</div>
+                        <div class="stats-item">🏅@MariyaSrkn 383</div>
+                    </div>
+                  
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Модальное окно черного списка -->
+    <div id="blacklist-modal" class="modal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <span class="close">&times;</span>
+                <h2>Черный список каналов</h2>
+            </div>
+            <div class="modal-body">
+                <div class="blacklist-container">
+                    <ul class="blacklist-list">
+                        <li>💀 <a href="https://t.me/spletterboxd" class="channel-link" target="_blank">(SP)LETTERBOXD</a></li>
+                        <li>💀 <a href="https://t.me/Kinoshnayabest1" class="channel-link" target="_blank">Киношная №1</a></li>
+                        <li>💀 <a href="https://t.me/PhilosophyOfCinema" class="channel-link" target="_blank">Философия кино</a></li>
+                        <li>💀 <a href="https://t.me/Kinohardcore" class="channel-link" target="_blank">Кинохардкор</a></li>
+                        <li>💀 <a href="https://t.me/v_krugu_adminov" class="channel-link" target="_blank">Круглосуточный сеанс</a></li>
+                        <li>💀 <a href="https://t.me/scalpelnazub" class="channel-link" target="_blank">скальпель на зуб</a></li>
+                        <li>💀 <a href="https://t.me/bylabutinka" class="channel-link" target="_blank">Лабутинка, что по кино?</a></li>
+                        <li>💀 <a href="https://t.me/kiryambit" class="channel-link" target="_blank">Кирямбит</a></li>
+                        <li>💀 <a href="https://t.me/beforethenight" class="channel-link" target="_blank">before your night 18+</a></li>
+                        <li>💀 <a href="https://t.me/monkeysandfilms" class="channel-link" target="_blank">Обезьяны и кино</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
 <script>
     // Данные из Excel (только те, у кого указан день рождения)
     const birthdayData = [
@@ -1166,8 +1177,7 @@ footer {
         ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
         ctx.fillRect(0, 0, canvas.width, canvas.height);
         
-ctx.fillStyle = 'rgba(255, 156, 195, 0.3)'; // #fb607f в RGB + opacity
-
+        ctx.fillStyle = '#f7406b';
         ctx.font = `${fontSize}px monospace`;
         
         for (let i = 0; i < drops.length; i++) {
@@ -1613,7 +1623,7 @@ async function exportTopToImage(title, items, isAllTime = false) {
             const img = document.createElement('img');
             img.src = canvas.toDataURL('image/png');
             img.style.maxWidth = '100%';
-            img.style.border = '2px solid #ff9cc3';
+            img.style.border = '2px solid #f7406b';
             img.style.borderRadius = '10px';
             img.style.maxHeight = '70vh';
             img.style.objectFit = 'contain';
